@@ -1,0 +1,19 @@
+% Problem description
+
+
+\chapter{Introducing Zimbra High Availability}
+This thesis was written to reflect the state of the art in High Availability methods for Zimbra Open Source Edition.  
+
+\section{History}
+There have been already some howtos about Zimbra High Availability but they were aimed at Zimbra 6 version which it's aimed to work (among others) in Ubuntu 8.04 64 bit. These howtos were based on Gnu/Linux High Availability software (heartbeat) which no longer was used for High Availability purposes nowadays.
+
+Last year Thesis' author wrote an Spanish howto in order to be able to work with Zimbra 7 and Ubuntu 10.04 64 bit. Finally on September 13th 2012 Vmware announced Zimbra 8 which could be run in Ubuntu 12.04.
+
+\section {Main thesis topic}
+The problem that this paper aims to solve is updating available howto instructions to meet the current state of the art technologies on High Availability in Gnu/Linux.
+
+\section {Choosen technologies and solution}
+Given the feedback found in the previous Spanish howto for Zimbra 7 in Ubuntu 10.04 we have decided to use initially the same High Availability technologies as the forementioned howto. Some of these technologies are: Corosync (Configuration files synchronisation), Distributed Replicated Block Device (DRBD, sharing storage between hosts), OCF (Cluster control scripts), and Pacemaker (Cluster management and setup).
+
+In order to validate the current thesis a set of virtual machines will be setup to check that even with Zimbra 8 and Ubuntu 12.04 all the steps in the original howto can be reproduced. That means that we go through these steps: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
+

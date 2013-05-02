@@ -4,16 +4,58 @@
 \chapter{Introducing Zimbra High Availability}
 This thesis was written to reflect the state of the art in High Availability methods for Zimbra Open Source Edition.  
 
+\section {High Availability}
+High availability is a system design approach and associated service implementation that ensures a prearranged level of operational performance will be met during a contractual measurement period. 
+
+High Availability, or HA as it is abbreviated, refers to the availability of resources in a computer system, in the wake of component failures in the system. This can be achieved in a variety of ways, spanning the entire spectrum ranging at the one end from solutions that use custom and redundant hardware to ensure availability, to the other end to solutions that provide software solutions using off-the-shelf hardware components. The former class of solutions provide a higher degree of availability, but are significantly more expensive, than the latter class. This has led to the popularity of the latter class, with almost all vendors of computer systems offering various HA products. Typically, these products survive single points of failure in the system.
+
+These HA systems usually ensure a prearranged level of operational performance will be met during a contractual measurement period. 
+
+High availability systems typically operate 24x7 and usually require built in redundancy built-in redundancy to minimize the risk of downtime due to hardware and/or telecommunication failures
+
+Availability can be measured relative to "100\% operational" or "never failing." A widely-held but difficult-to-achieve standard of availability for a system or product is known as "five 9s" (99.999 percent) availability.
+
+TODO: Reference to Wikipedia article.
+\begin{verbatim}
+http://en.wikipedia.org/wiki/High_availability
+\end{verbatim}
+
+
+TODO: IEEE Task Force on Cluster Computing - February 2011 -
+\begin{verbatim}
+http://web.archive.org/web/20110216113021/http://www.ieeetfcc.org/high-availability.html
+\end{verbatim}
+
+TODO:
+\begin{verbatim}
+http://www.bcmpedia.org/wiki/High_Availability
+\end{verbatim}
+
+
+
+\section {Vmware Zimbra OSE}
+VMware Zimbra is a complete email, address book, calendar and tasks solution that can be accessed from the Zimbra Web Client, Zimbra Desktop offline client, Outlook and a variety of other standards-based email clients and mobile devices. It can be deployed as a traditional binary install on Linux, or as a software virtual appliance, commonly referred to as Zimbra appliance.
+
+Among the Zimbra Collaboration Server (ZCS) versions this paper will abord the ZCS Open Source Edition also known as Zimbra OSE.
+
+Vmware Zimbra OSE will be refered most of the times as Zimbra.
+
+TODO: http://www.zimbra.com/learn/
+
+\section {Vmware Zimbra OSE High Availability}
+Zimbra OSE High Availability is the attempt to confer high availability to each one of the Zimbra Collaboration Server components so that the risk of downtime due to hardware and/or telecommunication failures is minimized. High availability is usually implemented thanks to High Availability software aimed at Gnu/Linux originally which it's adapted to the Zimbra OSE setup.
+
+
 \section{History}
-There have been already some howtos about Zimbra High Availability but they were aimed at Zimbra 6 version which it's aimed to work (among others) in Ubuntu 8.04 64 bit. These howtos were based on Gnu/Linux High Availability software (heartbeat) which no longer was used for High Availability purposes nowadays.
+There have been already some documents that implemented Zimbra High Availability but they were aimed at Zimbra 6 version which it's aimed to work (among others) in Ubuntu 8.04 64 bit. Those instructions were based on Gnu/Linux High Availability software (heartbeat) which no longer is used for High Availability purposes nowadays.
 
 Last year Thesis' author wrote an Spanish howto in order to be able to work with Zimbra 7 and Ubuntu 10.04 64 bit. Finally on September 13th 2012 Vmware announced Zimbra 8 which could be run in Ubuntu 12.04.
 
 \section {Main thesis topic}
-The problem that this paper aims to solve is updating available howto instructions to meet the current state of the art technologies on High Availability in Gnu/Linux.
+This paper aims to show a working implementation of the current state of the art technologies on High Availability in Gnu/Linux applied to the Vmware Zimbra case.
 
 \section {Choosen technologies and solution}
-Given the feedback found in the previous Spanish howto for Zimbra 7 in Ubuntu 10.04 we have decided to use initially the same High Availability technologies as the forementioned howto. Some of these technologies are: Corosync (Configuration files synchronisation), Distributed Replicated Block Device (DRBD, sharing storage between hosts), OCF (Cluster control scripts), and Pacemaker (Cluster management and setup).
+Initially we have decided to use initially the same High Availability technologies as the forementioned howto. Some of these technologies are: Corosync (Configuration files synchronisation), Distributed Replicated Block Device (DRBD, sharing storage between hosts), OCF (Cluster control scripts), and Pacemaker (Cluster management and setup).
 
-In order to validate the current thesis a set of virtual machines will be setup to check that even with Zimbra 8 and Ubuntu 12.04 all the steps in the original howto can be reproduced. That means that we go through these steps: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
+In order to validate the current thesis a set of virtual machines will be setup to check that even with Zimbra 8 and Ubuntu 12.04 all the steps in the original instructions can be reproduced. That means that we go through these steps: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
 

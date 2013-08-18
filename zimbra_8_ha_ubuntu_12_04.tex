@@ -48,6 +48,7 @@
 %    cannot be correctly viewed from the *.dvi file.  It should be converted
 %    to a *.ps file first and then viewed with a PostScript previewer...
 \usepackage{epsfig}
+\usepackage{graphicx}
 \usepackage{times}
 \renewcommand{\ttdefault}{cmtt}
 
@@ -113,10 +114,20 @@
 
 \include{prelude}                % Title page, abstract, table of contents, etc
 \include{problem-description}                  % Chapter 1
-%\include{essentials}             % Edited ``Essential LaTeX'' by Jon Warbrick
-%\include{figs}                   % Chapter 3 Edited from UW Math Dept's Sample Thesis
-%\include{bibs}                   % Chapter 4 From PU Thesis styles, by J.D. McCauley
-%\include{usage}                  % Chapter 5 Strongly based on similar by J.D. McCauley
+\include {ha-schema}
+%\include{network-setup}
+%\include{DRBD setup}
+%\include{Initial Pacemaker Setup}
+%\include{Corosync installation}
+%\include{Pacemaker installation}
+%\include{Corosync setup}
+%\include{Startup script disabling}
+%\include{DRBD Script Boot disabling}
+%\include{Pacemaker final setup}
+%\include{Pacemaker case of use tests}
+     
+%\include{figs}
+%\include{bibs}
 
 \bibliography{refs}              % Make the bibliography
 

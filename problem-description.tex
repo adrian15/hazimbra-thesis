@@ -5,9 +5,15 @@
 This thesis was written to reflect the state of the art in High Availability methods for Zimbra Open Source Edition.  
 
 \section {High Availability}
-High availability is a system design approach and associated service implementation that ensures a prearranged level of operational performance will be met during a contractual measurement period. 
+High availability is a system design approach and associated service implementation that ensures that a prearranged level of operational performance will be met during a contractual measurement period.
 
-High Availability, or HA as it is abbreviated, refers to the availability of resources in a computer system, in the wake of component failures in the system. This can be achieved in a variety of ways, spanning the entire spectrum ranging at the one end from solutions that use custom and redundant hardware to ensure availability, to the other end to solutions that provide software solutions using off-the-shelf hardware components. The former class of solutions provide a higher degree of availability, but are significantly more expensive, than the latter class. This has led to the popularity of the latter class, with almost all vendors of computer systems offering various HA products. Typically, these products survive single points of failure in the system.
+TODO: ADD AN EXAMPLE
+
+High Availability, or HA as it is abbreviated, refers to the availability of resources in a computer system, in the event of component failures in the system. This can be achieved in a variety of ways, either with custom and redundant hardware to ensure availability or with software solutions using off-the-shelf hardware components.
+
+The former class of solutions provide a higher degree of availability, but are significantly more expensive than the class. This has led to the popularity of the latter class, with almost all vendors of computer systems offering various HA products. Typically, these products endure single points of failure in the system.
+
+TODO: ADD AN EXAMPLE
 
 These HA systems usually ensure a prearranged level of operational performance will be met during a contractual measurement period. 
 
@@ -43,19 +49,29 @@ Vmware Zimbra OSE will be refered most of the times as Zimbra.
 TODO: http://www.zimbra.com/learn/
 
 \section {Vmware Zimbra OSE High Availability}
-Zimbra OSE High Availability is the attempt to confer high availability to each one of the Zimbra Collaboration Server components so that the risk of downtime due to hardware and/or telecommunication failures is minimized. High availability is usually implemented thanks to High Availability software aimed at Gnu/Linux originally which it's adapted to the Zimbra OSE setup.
+Zimbra OSE High Availability is a project which attempts to attain high availability to each one of the Zimbra Collaboration Server components so that the risk of downtime due to hardware and/or telecommunication failures is minimized. High availability is usually implemented using High Availability software aimed at Gnu/Linux originally which it's adapted to the Zimbra OSE setup.
 
 
 \section{History}
-There have been already some documents that implemented Zimbra High Availability but they were aimed at Zimbra 6 version which it's aimed to work (among others) in Ubuntu 8.04 64 bit. Those instructions were based on Gnu/Linux High Availability software (heartbeat) which no longer is used for High Availability purposes nowadays.
 
-Last year Thesis' author wrote an Spanish howto in order to be able to work with Zimbra 7 and Ubuntu 10.04 64 bit. Finally on September 13th 2012 Vmware announced Zimbra 8 which could be run in Ubuntu 12.04.
+Prior documentation about Zimbra High Availability was written with Zimbra 6 version in mind which it's devoted to work (among others) in Ubuntu 8.04 64 bit. Those instructions were based on Gnu/Linux High Availability software (heartbeat) which no longer is used for High Availability purposes nowadays.
+
+
+TODO: REF (Last year Thesis' author)
+
+ wrote an Spanish howto in order to be able to work with Zimbra 7 and Ubuntu 10.04 64 bit. Finally on September 13th 2012 Vmware announced Zimbra 8 which could be run in Ubuntu 12.04.
 
 \section {Main thesis topic}
-This paper aims to show a working implementation of the current state of the art technologies on High Availability in Gnu/Linux applied to the Vmware Zimbra case.
+The goal of this Master Thesis is to show a working implementation of the current state of the art technologies on High Availability in Gnu/Linux applied to the Vmware Zimbra case.
 
-\section {Choosen technologies and solution}
-Initially we have decided to use initially the same High Availability technologies as the forementioned howto. Some of these technologies are: Corosync (Configuration files synchronisation), Distributed Replicated Block Device (DRBD, sharing storage between hosts), OCF (Cluster control scripts), and Pacemaker (Cluster management and setup).
+\section {Chosen technologies and solution}
+Initially, we have decided to use the same High Availability technologies as the forementioned howto. Some of these technologies are: Corosync (Configuration files synchronisation), Distributed Replicated Block Device (DRBD, sharing storage between hosts), OCF (Cluster control scripts), and Pacemaker (Cluster management and setup).
 
-In order to validate the current thesis a set of virtual machines will be setup to check that even with Zimbra 8 and Ubuntu 12.04 all the steps in the original instructions can be reproduced. That means that we go through these steps: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
+TODO: Explicar de d\'onde sale Corosync, qu\'e hace y por qu\'e aparece aqu\'i.
+
+A set of virtual machines will be setup to check that even with Zimbra 8 and Ubuntu 12.04 all the steps in the original instructions can be reproduced. These steps are: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
+
+\section {Structure of the document}
+TODO
+
 

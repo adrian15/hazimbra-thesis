@@ -666,13 +666,13 @@
 \newcommand{\degree}[1]{\gdef\@degree{#1}}
 \newcommand{\project}{\gdef\@doctype{A masters project report}}
 \newcommand{\prelim}{\gdef\@doctype{A preliminary report}}
-\newcommand{\thesis}{\gdef\@doctype{A thesis}}
+\newcommand{\thesis}{\gdef\@doctype{A Master Thesis}}
 \newcommand{\dissertation}{\gdef\@doctype{A dissertation}}
 \newcommand{\department}[1]{\gdef\@department{(#1)}}
 
 \if@msmargin    % Set Defaults based on Margin definition
    \gdef\@degree{Master of Science}    % Default is MS
-   \gdef\@doctype{A thesis}            % Default is Thesis
+   \gdef\@doctype{A Master Thesis}            % Default is Thesis
 \else
    \gdef\@degree{Doctor of Philosophy}    %Default is PhD
    \gdef\@doctype{A dissertation}         %Default is dissertation

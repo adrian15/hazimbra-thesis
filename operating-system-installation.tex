@@ -5,8 +5,34 @@
 This chapter explains the Operating System installation overview.
 
 \section {Ubuntu 12.04 64 bit minimal}
-\subsection {Download}
 TODO: Download of minimal cd
-\subsection {Installation}
-TODO: Overview of the different installation steps
 
+\section {Installation}
+\subsection {TODO: steps1}
+\subsection {Partitioning}
+Both virtual machines will have the same partitioning scheme. Both virtual machines have two hard disks.
+Assuming a 1.8 Terabyte hard disk in order to setup DRBD-Meta-Disk there's enough with 59 megabytes. We will be on the safe side and setup it with a 150 megabytes size.
+
+Hard Disk 1:
+\begin{verbatim}
+sda1 / 10GB ext4
+sda2 DRBD-Meta-Disk 150MB ext4
+sda3 (LVM Partition + Free space for LVM snapshots)
+\end{verbatim}
+
+sda3 contains a LVM's Volume Group named zimbra.
+This Volume Group has a Logical Volume named zimbra also which doesn't ocuppy the full Volume Group space. The reason is that we reserver some space for snapshots when doing backups.
+
+In our case we did:
+\begin{verbatim}
+VG zimbra: 1,8 TB
+
+  LV zimbra: 1770 GB
+  Free space: 30 GB
+\end{verbatim}
+
+
+Hard Disk 2:
+\begin{verbatim}
+sdb1 / 2 GB SWAP
+\end{verbatim}

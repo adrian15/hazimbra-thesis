@@ -1,0 +1,128 @@
+% DRBD Setup
+
+
+\chapter{DRBD Setup}
+This chapter explains the DRBD Setup.
+
+\section {Introduction}
+DRBD is a system that let us mirror a block device via an assigned device. DRBD can be understood as network based ra-1 and it's used in high availability (HA) clusters.
+We're using DRBD to mirror the block device where Zimbra files will be stored on.
+
+\section {Requirements}
+We will install DRBD packages for the Ubuntu 12.04 system thanks to the following command:
+\begin{verbatim}
+sudo apt-get install drbd8-utils
+\end{verbatim}
+.
+
+
+
+\section {DRBD Resource config}
+\textbf{To be performed in both servers}.
+
+We will backup main drbd configuration file:
+\begin{verbatim}
+cp /etc/drbd.conf /etc/drbd.conf.orig
+\end{verbatim}
+.
+
+We then need to edit:
+\begin{verbatim}
+/etc/drbd.conf
+\end{verbatim}
+so that it has:
+\begin{verbatim}
+resource zimbradata {
+  protocol C;
+  incon-degr-cmd "halt -f";
+  startup {
+    degr-wfc-timeout 120; # 2 min
+  }
+  disk {
+    on-io-error detach;
+  }
+  net {
+  }
+  syncer {
+    rate 10M;
+    group 1;
+    al-extents 257;
+  }
+  on zhatest-01.dominio.com {
+    device /dev/drbd0;
+    disk /dev/zimbra/zimbra;
+    address zhatest-01-comm-ip:7788;
+    meta-disk /dev/sda2[0];
+  }
+  on zhatest-02.dominio.com {
+    device /dev/drbd0;
+    disk /dev/zimbra/zimbra;
+    address zhatest-02-comm-ip:7788;
+    meta-disk /dev/sda2[0];
+  }
+}
+\end{verbatim}
+.
+
+\section {Start DRBD module}
+\textbf{To be performed in both servers}.
+\begin{verbatim}
+modprobe drbd
+\end{verbatim}
+.
+\section {Metadata disk initialisation}
+\textbf{To be performed in both servers}.
+We make sure the metadata partition does not have any prior metadata signature.
+\begin{verbatim}
+dd if=/dev/zero of=/dev/sda2 bs=1K count=100
+\end{verbatim}
+And we create the zimbradata metadata partition:
+\begin{verbatim}
+drbdadm create-md zimbradata
+\end{verbatim}
+.
+
+\section {Primera sincronizaci\'on DRBD}
+\textbf{To be performed in both servers}.
+\begin{verbatim}
+drbdadm up all
+\end{verbatim}
+where we shouldn't find any incorrect hostname errors.
+TODO: Rewrite last line.
+
+We will be asked about usage survey, we just reply that we don't want to participate by saying 'no'.
+
+\textbf{To be performed in Primary server only}.
+\begin{verbatim}
+drbdadm -- --do-what-I-say primary all
+drbdadm -- connect all
+\end{verbatim}
+.
+
+If we happen to find a \textit{net-config disconnect first} error we can safely ignore it.
+
+In order to check DRBD first synchronisation status we need to check /proc/drbd file with:
+\begin{verbatim}
+cat /proc/drbd
+\end{verbatim}
+which will output something like:
+\begin{verbatim}
+version: 0.7.20 (api:77/proto:74)
+SVN Revision: 1743 build by <a href="mailto:phil@mescal">\
+phil@mescal</a>, 2005-01-31 12:22:07
+0: cs:SyncSource st:Primary/Secondary ld:Consistent
+ns:13441632 nr:0 dw:0 dr:13467108 al:0 \
+bm:2369 lo:0 pe:23 ua:226 ap:0
+[==>..............] sync'ed: 3.1% (7000/7168)M
+finish: 1:14:16 speed: 2,644 (2,204) K/sec
+1: cs:Unconfigured
+\end{verbatim}
+.
+
+We must wait for the process to finish in order to continue.
+
+
+
+
+
+

@@ -6,4 +6,275 @@ This chapter explains the Corosync Setup.
 
 \section {Corosync.conf}
 
-TODO: Complete. 
+The corosync.conf file on both computers it will be modified to use upnp so that we can use in non multicast environments. In order to use upnp we need to use a corosync version higher than 1.3 but that's not a problem because current version is higher than that.
+
+\subsection {Primary server Corosync.conf}
+
+We create the file:
+\begin{verbatim}
+/etc/corosync/corosync.conf
+\end{verbatim}
+which its contents will be:
+
+TODO: Change zhatest-01-comm-ip and zhatest-02-comm-ip with actual ips
+TODO: Explain a bit the settings in the file
+
+\begin{verbatim}
+# Please read the openais.conf.5 manual page
+
+totem {
+	version: 2
+
+	# How long before declaring a token lost (ms)
+	token: 5000
+
+	# How many token retransmits before
+	# forming a new configuration
+	token_retransmits_before_loss_const: 20
+
+	# How long to wait for join messages
+	# in the membership protocol (ms)
+	join: 1000
+
+	# How long to wait for consensus to be achieved 
+	# before starting a new round of
+	# membership configuration (ms)
+	consensus: 7500
+
+	# Turn off the virtual synchrony filter
+	vsftype: none
+
+	# Number of messages that may be sent by one
+	# processor on receipt of the token
+	max_messages: 20
+
+	# Limit generated nodeids to 31-bits
+	# (positive signed integers)
+	clear_node_high_bit: yes
+
+	# Disable encryption
+ 	secauth: off
+
+	# How many threads to use for encryption/decryption
+ 	threads: 0
+
+	# Optionally assign a fixed node id (integer)
+	 #nodeid: 1234
+
+
+        rrp_mode: passive
+
+
+interface {
+		member {
+			memberaddr: zhatest-01-comm-ip
+		}
+		member {
+			memberaddr: zhatest-02-comm-ip
+		}
+        ringnumber: 0
+        bindnetaddr: zhatest-01-comm-ip
+        mcastport: 5405
+        }
+		transport: udpu
+}
+amf {
+	mode: disabled
+}
+
+service {
+ 	# Load the Pacemaker Cluster Resource Manager
+ 	ver:       0
+ 	name:      pacemaker
+}
+
+aisexec {
+        user:   root
+        group:  root
+}
+
+logging {
+        fileline: off
+        to_stderr: yes
+        to_logfile: no
+        to_syslog: yes
+	syslog_facility: daemon
+        debug: off
+        timestamp: on
+   logger_subsys {
+           subsys: AMF
+           debug: off
+tags: enter|leave|trace1|trace2|trace3|trace4|trace6
+   }
+}
+\end{verbatim}
+
+\subsection {Secondary server Corosync.conf}
+
+We create the file:
+\begin{verbatim}
+/etc/corosync/corosync.conf
+\end{verbatim}
+which its contents will be:
+
+TODO: Change zhatest-01-comm-ip and zhatest-02-comm-ip with actual ips
+TODO: Explain a bit the settings in the file
+
+\begin{verbatim}
+# Please read the openais.conf.5 manual page
+
+totem {
+	version: 2
+
+	# How long before declaring a token lost (ms)
+	token: 5000
+
+	# How many token retransmits before
+	# forming a new configuration
+	token_retransmits_before_loss_const: 20
+
+	# How long to wait for join messages
+	# in the membership protocol (ms)
+	join: 1000
+
+	# How long to wait for consensus to be achieved 
+	# before starting a new round of
+	# membership configuration (ms)
+	consensus: 7500
+
+	# Turn off the virtual synchrony filter
+	vsftype: none
+
+	# Number of messages that may be sent by one
+	# processor on receipt of the token
+	max_messages: 20
+
+	# Limit generated nodeids to 31-bits
+	# (positive signed integers)
+	clear_node_high_bit: yes
+
+	# Disable encryption
+ 	secauth: off
+
+	# How many threads to use for encryption/decryption
+ 	threads: 0
+
+	# Optionally assign a fixed node id (integer)
+	 #nodeid: 1234
+
+
+        rrp_mode: passive
+
+
+interface {
+		member {
+			memberaddr: zhatest-01-comm-ip
+		}
+		member {
+			memberaddr: zhatest-02-comm-ip
+		}
+        ringnumber: 0
+        bindnetaddr: zhatest-02-comm-ip
+        mcastport: 5405
+        }
+		transport: udpu
+}
+amf {
+	mode: disabled
+}
+
+service {
+ 	# Load the Pacemaker Cluster Resource Manager
+ 	ver:       0
+ 	name:      pacemaker
+}
+
+aisexec {
+        user:   root
+        group:  root
+}
+
+logging {
+        fileline: off
+        to_stderr: yes
+        to_logfile: no
+        to_syslog: yes
+	syslog_facility: daemon
+        debug: off
+        timestamp: on
+   logger_subsys {
+           subsys: AMF
+           debug: off
+tags: enter|leave|trace1|trace2|trace3|trace4|trace6
+   }
+}
+\end{verbatim}
+
+\section {Corosync's Authkey}
+In the primary server we will create the file:
+\begin{verbatim}
+/etc/corosync/authkey
+\end{verbatim}
+thanks to running:
+\begin{verbatim}
+corosync-keygen
+\end{verbatim}
+.
+
+In order to secure it we will need to run:
+\begin{verbatim}
+chown root:root /etc/corosync/authkey
+chmod 400 /etc/corosync/authkey
+\end{verbatim}
+.
+
+Once the file created we will copy the very same file to the secondary server in the same path as in primary server.
+
+\section {Cfgtool}
+
+In both servers we need to edit:
+\begin{verbatim}
+/etc/rc.local
+\end{verbatim}
+in order to add the line:
+\begin{verbatim}
+/usr/sbin/corosync-cfgtool -r
+\end{verbatim}
+just before the:
+\begin{verbatim}
+exit 0
+\end{verbatim}
+line.
+
+TODO: That makes run corosync cfgtool at boot to inforce... WHAT?
+
+\section {Corosync startup enabling}
+In order to enable Corosync at boot we need to edit:
+\begin{verbatim}
+/etc/default/corosync
+\end{verbatim}
+file so that:
+\begin{verbatim}
+START=no
+\end{verbatim}
+line becomes:
+\begin{verbatim}
+START=yes
+\end{verbatim}
+.
+
+\section {Corosync reboot and check}
+In order to check Corosync startup we need to reboot the machine thanks to:
+\begin{verbatim}
+sync
+shutdown -r now
+\end{verbatim}
+.
+
+Once the machine has rebooted we can cluster status thanks to:
+\begin{verbatim}
+crm_mon
+\end{verbatim}
+.
+
+TODO: Add some explanation on how to check if cluster is ok. What are the standard message for OK and KO errors.

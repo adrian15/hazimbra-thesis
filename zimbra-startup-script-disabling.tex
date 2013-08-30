@@ -1,0 +1,14 @@
+% Zimbra Startup Script disabling
+
+
+\chapter{Zimbra Startup Script Disabling}
+This chapter explains how to disable the Zimbra Startup Script.
+
+\section {Introduction}
+We need to disable default Zimbra startup script because Pacemaker will be the responsible for starting and stopping Zimbra thanks to an OCF Script.
+
+\section {Disable Zimbra Startup scripts}
+We just have to run:
+\begin{verbatim}
+update-rc.d -f zimbra remove
+\end{verbatim}

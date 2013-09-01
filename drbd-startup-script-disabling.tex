@@ -1,0 +1,14 @@
+% DRBD Startup Script disabling
+
+
+\chapter{DRBD Startup Script Disabling}
+This chapter explains how to disable the DRBD Startup Script.
+
+\section {Introduction}
+We need to disable default DRBD startup script because Pacemaker will be the responsible for starting and stopping DRBD.
+
+\section {Disable DRBD Startup scripts}
+We just have to run:
+\begin{verbatim}
+update-rc.d -f drbd remove
+\end{verbatim}

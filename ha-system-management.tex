@@ -1,0 +1,88 @@
+% High Availability System Management
+
+
+\chapter{High Availability System Management}
+This chapter describes some common management tasks that can be used in the described High Availability System.
+
+TODO: The described. Find a better rewording.
+
+
+TODO: Reference to Cluster From Scratch for the examples
+
+TODO: Reference to:
+\begin{verbatim}
+http://www.zimbra.com/forums/administrators\
+/58113-zimbra-pacemaker-drbd-howto-2.html
+\end{verbatim}
+and
+\begin{verbatim}
+https://www.dropbox.com/s/8w4f7koz9ym3cle\
+/Howto_HA_Zimbra8.pdf
+\end{verbatim}
+for extra examples
+
+\section {Host down simulation}
+These commands simulate that a host is down by stopping both pacemaker and corosync services. We will run them only in the primary server. The secondary server is supposed to take control of the cluster system and start Zimbra.
+
+\begin{verbatim}
+service pacemaker stop
+service corosync stop
+\end{verbatim}
+
+\section {Node recover}
+In order to simulate a node recover we will start both pacemaker and corosync services in primary server:
+\begin{verbatim}
+service corosync start
+service pacemaker start
+\end{verbatim}
+
+As per our our cluster system stickyness Zimbra service will stay in secondary server.
+
+
+TODO: Cluster system is a synonym for High Availability cluster. Add it Prelude or similar chapter where definitions are done.
+
+\section {Resources check}
+In order to check the overall Cluster status we just run the cluster management monitor command:
+\begin{verbatim}
+crm_mon
+\end{verbatim}
+
+TODO: Add an crm\_mon output as a listing and make a reference to it
+
+\section {Move cluster resources temporarily}
+In the case that we want to move \textit{temporarily} resources to primary server we should run:
+\begin{verbatim}
+crm resource move ZimbraServer zhatest-01
+\end{verbatim}
+
+\section {Disable cluster resources temporarily movement}
+If we want to return Resource control to the cluster we can run:
+\begin{verbatim}
+crm resource unmove zhatest-01
+\end{verbatim}
+. In our setup, thanks to our defined stickiness the cluster won't perform any resource movement.
+
+\section {Migration testing}
+We can simulate the migration by declaring a node in standby. This way the standby node hardware can be fixed. We just have to run:
+\begin{verbatim}
+crm node standby
+\end{verbatim}
+in the affected node.
+
+In order to check the migration status we can run:
+\begin{verbatim}
+crm_mon
+\end{verbatim}
+.
+
+Finally once we have fixed the hardware we can declare the node online again thanks to:
+\begin{verbatim}
+crm node online
+\end{verbatim}
+.
+
+Once again in our setup, thanks to our defined stickiness the cluster won't perform any resource movement.
+
+
+TODO: Put references between all of these sections to explicify that there are linked one to another.
+

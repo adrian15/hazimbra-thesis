@@ -1,0 +1,106 @@
+% Pacemaker Final Setup
+
+
+\chapter{Pacemaker Final Setup}
+This chapter explains how to setup Pacemaker to acomplish High Availability finally.
+
+\section {Pacemaker Setup explained}
+As explained in \textit{section \ref{sec:about-pacemaker} About Pacemaker} Pacemaker is High Availability resource manager, here we will explain how our setup pretends to manage our two servers resources.
+
+\begin{itemize}
+  \item Setup deletes prior configuration.
+  \item DRBD, Filesystem mount and Zimbra Server are setup to work in the same server as they work as in a team.
+  \item System stickiness is changed so that Zimbra Server resource is not moved from where it's running to avoid Zimbra innecessary downtimes.
+  \item System are forced to be started in the right order. The right order is: DRBD, Filesystem mount, and Zimbra Server.
+  \item We disable stonith in order to simplify the setup.
+  \item Primary server will be the prefered server where resources need to be run.
+\end{itemize}
+
+TODO: Check if we define stickiness somewhere else and make a reference here.
+
+TODO: Check if we need an order for normal ip ifconfig or whatever it's called.
+
+TODO: Add an explanation on stonith on a new Improvements chapter and make here a reference to it.
+
+The configuration file which we will be using it's written only once into:
+\begin{verbatim}
+/tmp/zimbrapacemaker.config
+\end{verbatim}
+. In order to apply the configuration we will run:
+\begin{verbatim}
+crm < /tmp/zimbrapacemaker.config
+\end{verbatim}
+.
+
+\textit{/tmp/zimbrapacemaker.config} file contents are:
+\begin{verbatim}
+configure
+erase
+node zhatest-01.domain.com
+node zhatest-02.domain.com
+# Activate failover
+property no-quorum-policy=ignore
+# Disable stonith
+property stonith-enabled=false
+# Public ip fail over check
+primitive ClusterIP ocf:heartbeat:IPaddr2 \
+params nic=eth0 ip=ip-fail-over-PUBLICA \
+cidr_netmask=32 \
+broadcast=ip-fail-over-PUBLICA \
+op monitor interval=30s
+# Resource stickiness
+rsc_defaults resource-stickiness=100
+# Configure zimbra resource
+primitive ZimbraServer ocf:btactic:zimbra op \
+monitor interval=2min timeout="40s" \
+op start interval="0" timeout="360s" \
+op stop interval="0" timeout="360s"
+# Prefered location: zhatest-01
+location prefer-zhatest-01 \
+ZimbraServer 50: zhatest-01
+# Define DRBD ZimbraData
+primitive ZimbraData ocf:linbit:drbd params \
+drbd_resource=zimbradata op monitor \
+role=Master interval=60s op monitor \
+role=Slave interval=50s \
+op start role=Master interval="0" timeout="240" \
+op start role=Slave interval="0" timeout="240" \
+op stop role=Master interval="0" timeout="100" \
+op stop role=Slave interval="0" timeout="100"
+# Define DRBD ZimbraData Clone
+ms ZimbraDataClone ZimbraData meta \
+master-max=1 master-node-max=1 \
+clone-max=2 clone-node-max=1 notify=true
+# Define ZimbraFS so that zimbra can use it
+primitive ZimbraFS ocf:heartbeat:Filesystem \
+params device="/dev/drbd/by-res/zimbradata" \
+directory="/opt" fstype="ext4" \
+op start interval="0" timeout="60s" \
+op stop interval="0" timeout="60s"
+group MySystem ClusterIP
+group MyZimbra ZimbraFS ZimbraServer
+
+
+# Everything in the same host
+colocation everything-together \
+inf: MyZimbra \
+ZimbraDataClone:Master MySystem
+
+# Everything ordered
+order everything-ordered \
+inf: \
+MySystem \
+ZimbraDataClone:promote MyZimbra
+commit
+\end{verbatim}
+
+TODO: Check if we need an order for normal ip ifconfig or whatever it's called.
+
+TODO: Chapter Improvements . Add reference to OVH Ip failover
+
+TODO: Chapter Improvements . Add reference to OVH Host Route
+
+TODO: Chapter Improvements . Add reference to OVH Default Route
+
+TODO: cidr\_netmask=32 ; Make sure it's 24 or whatever the default netmask is.
+

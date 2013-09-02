@@ -41,3 +41,11 @@ http://www.redhat.com/archives\
 /linux-cluster/2013-July/msg00028.html
 \end{verbatim}
 
+\section {Mysql HA}
+One of the Zimbra components is a Mysql database. This Mysql database can be excluded from DRBD syncing and can be setup as an active / active cluster.
+
+This setup will offer a better handling of node failing because you would only loose last mysql queries. In the DRBD case you loose all the file changes that have not been stored into the files that compose actual Mysql database.
+
+The only drawback for this improvement is that Zimbra OSE upgrades tend to be much more difficult when we want to preserve high availability.
+
+

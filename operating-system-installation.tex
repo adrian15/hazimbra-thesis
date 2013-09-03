@@ -4,13 +4,18 @@
 \chapter{Operating System installation}
 This chapter explains the Operating System installation.
 
+\section {Introduction}
+The reason why Ubuntu 12.04 in its 64bit mode is used is because is one of the official supported Operating System for Zimbra 8 versions. We denote an external DRBD metadata as DRBD-Meta-Disk. We can understand it is an special partition that helps DRBD system to track changes between synchronised partitions between both primary and secondary nodes. We can find a more accurate definition at Linbit site: \cite{LinbitDRBDInternals}.
+
 \section {Ubuntu 12.04 64 bit minimal}
-TODO: Download of minimal cd
+In order to track all the requisites and just install what the high availability system needs we will use an Ubuntu minimal disk for installation. These disks can be downloaded from \cite{UbuntuMinimalDisk}.
+
+The used download was: \textit{Ubuntu 12.04 "Precise Pangolin" Minimal CD} from the \textit{64-bit PC (amd64, x86\_64)} section. 
 
 \section {TODO: steps1}
 \section {Partitioning}
 Both virtual machines will have the same partitioning scheme. Both virtual machines have two hard disks.
-Assuming a 1.8 Terabyte hard disk in order to setup DRBD-Meta-Disk there's enough with 59 megabytes. We will be on the safe side and setup it with a 150 megabytes size.
+Assuming a 1.8 Terabyte hard disk in order to setup DRBD-Meta-Disk there's enough with 59 megabytes. We will be on the safe side and setup it with a 150 megabytes size. In order to safe calculate other DRBD meta disk partitions we can check \cite{LinbitDRBDInternals}.
 
 Hard Disk 1:
 \begin{verbatim}

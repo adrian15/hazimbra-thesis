@@ -5,7 +5,7 @@
 This chapter explains the DRBD Setup.
 
 \section {Introduction}
-DRBD is a system that let us mirror a block device via an assigned device. DRBD can be understood as network based raid-1 and it's used in high availability (HA) clusters.
+DRBD is a system that let us mirror a block device via an assigned device. DRBD can be understood as network based raid-1 and it's used in high availability (HA) clusters (\cite{LinbitDRBDWhatIs}).
 We're using DRBD to mirror the block device where Zimbra files will be stored on.
 
 \section {Requirements}
@@ -63,6 +63,10 @@ resource zimbradata {
 }
 \end{verbatim}
 .
+
+TODO: Explain drbd.conf contents and what they mean more or less.
+
+If we want to modify our drbd.conf to increase sync rate, synchronised devices or any other settings we can check documentation at \cite{LinbitDRBDdrbdconf}.
 
 \section {Start DRBD module}
 \textbf{To be performed in both servers}.

@@ -5,38 +5,22 @@
 This chapter is about the Pacemaker initial setup that it's needed so that Zimbra can be treated as a resource.
 
 \section {About OCF Resource agents}
-A resource agent is a standardized interface for a cluster resource. In translates a standard set of operations into steps specific to the resource or application, and interprets their results as success or failure. An OCF resource agent is based on the Open Clustering Framework Resource Agent API specifications. 
-
-TODO:
-\begin{verbatim}
-http://linux-ha.org/wiki/Resource_Agents
-http://linux-ha.org/wiki/OCF_Resource_Agents
-\end{verbatim}
-
-
+A resource agent is a standardized interface for a cluster resource. In translates a standard set of operations into steps specific to the resource or application, and interprets their results as success or failure(\cite{ResourceAgentsWiki}). An OCF resource agent is based on the Open Clustering Framework Resource Agent API specifications(\cite{OCFResourceAgentsWiki}). 
 
 \section {bTactic Zimbra OCF installation}
-We need to download the Zimbra OCF script from bTactic ORG site.
-
-TODO:
-\begin{verbatim}
-http://www.btactic.org
-http://www.btactic.org/btactic_ocf_0.0.2.tar.gz
-\end{verbatim}
-.
+We need to obtain the Zimbra OCF script. Zimbra OCF script is found inside BtacticOCF tar.gz file (\cite{BtacticOCF}) which can be downloaded from BtacticOCF  tar.gz file (\cite{BtacticOrg}).
 
 From the tar.gz we will use the zimbra script which we will copy into:
 \begin{verbatim}
 /usr/lib/ocf/resource.d/btactic
 \end{verbatim}
-.
 
-So in order to install it we enter into a temporary directory:
+We will use a temporary directory in order to use it:
 \begin{verbatim}
 mkdir /tmp/temp
 cd /tmp/temp
 \end{verbatim}
-Download and extract it:
+We download and extract it:
 \begin{verbatim}
 wget "http://www.btactic.org/btactic_ocf_0.0.2.tar.gz"
 tar xzf btactic_ocf_0.0.2.tar.gz

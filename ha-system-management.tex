@@ -6,20 +6,8 @@ This chapter describes some common management tasks that can be used in the desc
 
 TODO: The described. Find a better rewording.
 
-
-TODO: Reference to Cluster From Scratch for the examples
-
-TODO: Reference to:
-\begin{verbatim}
-http://www.zimbra.com/forums/administrators\
-/58113-zimbra-pacemaker-drbd-howto-2.html
-\end{verbatim}
-and
-\begin{verbatim}
-https://www.dropbox.com/s/8w4f7koz9ym3cle\
-/Howto_HA_Zimbra8.pdf
-\end{verbatim}
-for extra examples
+\section {Introduction}
+Most of these examples have been extracted from Clusters From Scratch (\cite{ClustersFromScratch}) document . At Zimbra Forums Zimbra on Pacemaker + DRBD howto thread (\cite{ZForumsTaer}) we can find a Zimbra 8 High Availability Howto (\cite{TaerHowtoHAZimbra8}) where we can find more every-day uses of Pacemaker examples.
 
 \section {Host down simulation}
 These commands simulate that a host is down by stopping both pacemaker and corosync services. We will run them only in the primary server. The secondary server is supposed to take control of the cluster system and start Zimbra.

@@ -7,6 +7,7 @@ This chapter explains how to setup Pacemaker to acomplish High Availability fina
 \section {Pacemaker Setup explained}
 As explained in \textit{section \ref{sec:about-pacemaker} About Pacemaker} Pacemaker is High Availability resource manager, here we will explain how our setup pretends to manage our two servers resources.
 
+These are the main settings we define in our configuration:
 \begin{itemize}
   \item Setup deletes prior configuration.
   \item DRBD, Filesystem mount and Zimbra Server are setup to work in the same server as they work as in a team.
@@ -22,7 +23,7 @@ TODO: Check if we need an order for normal ip ifconfig or whatever it's called.
 
 TODO: Add an explanation on stonith on a new Improvements chapter and make here a reference to it.
 
-TODO: Add reference to Cluster from Scratch
+
 
 The configuration file which we will be using it's written only once into:
 \begin{verbatim}
@@ -96,13 +97,9 @@ ZimbraDataClone:promote MyZimbra
 commit
 \end{verbatim}
 
+Pacemaker configuration is not trivial. The main document from which the configuration file was adapted and written was Clusters from Scrach (\cite{ClustersFromScratch}).
+
 TODO: Check if we need an order for normal ip ifconfig or whatever it's called.
-
-TODO: Chapter Improvements . Add reference to OVH Ip failover
-
-TODO: Chapter Improvements . Add reference to OVH Host Route
-
-TODO: Chapter Improvements . Add reference to OVH Default Route
 
 TODO: cidr\_netmask=32 ; Make sure it's 24 or whatever the default netmask is.
 

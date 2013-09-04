@@ -7,13 +7,13 @@ This thesis was written to reflect the state of the art in High Availability met
 \section {High Availability}
 High availability is a system design approach and associated service implementation that ensures that a prearranged level of operational performance will be met during a contractual measurement period.
 
-TODO: ADD AN EXAMPLE
+One of the most common high availability examples are web servers. Two web servers share the same information thanks to a shared storage. If one of the web servers fails to serve pages the other server can reclaim its primary role and shot the other node in the head (stonith) so that it can serve pages instead of the original primary node. The amount of time since the first server failure is detected and when the service is restablished denotes downtime. A contract for High Availability might estipulate that in a month time web servers service might be in downtime status for no more than five minutes.
 
 High Availability, or HA as it is abbreviated, refers to the availability of resources in a computer system, in the event of component failures in the system. This can be achieved in a variety of ways, either with custom and redundant hardware to ensure availability or with software solutions using off-the-shelf hardware components.
 
 The former class of solutions provide a higher degree of availability, but are significantly more expensive than the class. This has led to the popularity of the latter class, with almost all vendors of computer systems offering various HA products. Typically, these products endure single points of failure in the system. (\cite{TaskForceHA})
 
-TODO: ADD AN EXAMPLE
+As an example for more expensive systems we can mention OVH.co.uk web hosting service which uses more than 1,000 servers not only for ensuring high availability but also for dealing with high loads of visitor's queries. SQL servers seem to achieve high availability by using several RAID-1 (mirror) hard disks.
 
 These HA systems usually ensure a prearranged level of operational performance will be met during a contractual measurement period. (\cite{WikipediaHA})
 
@@ -45,9 +45,9 @@ Thesis' author wrote a howto in order to be able to work with Zimbra 7 and Ubunt
 The goal of this Master Thesis is to show a working implementation of the current state of the art technologies on High Availability in Gnu/Linux applied to the Vmware Zimbra case.
 
 \section {Chosen technologies and solution}
-Initially, we have decided to use the same High Availability technologies as the forementioned howto. Some of these technologies are: Corosync (Configuration files synchronisation), Distributed Replicated Block Device (DRBD, sharing storage between hosts), OCF (Cluster control scripts), and Pacemaker (Cluster management and setup).
+Initially, we have decided to use the same High Availability technologies as the forementioned howto. Some of these technologies are: Corosync, Distributed Replicated Block Device (DRBD), OCF , and Pacemaker.
 
-TODO: Explicar de d\'onde sale Corosync, qu\'e hace y por qu\'e aparece aqu\'i.
+Corosync is a software meant to synchronise configuration files. Synchronise configuration files in Cluster is essential because all the cluster members have to have the same information and knowledge of the other cluster members. DRBD let us share a common storage between hosts as if a network RAID-1 hard disk it was. Finally in order to setup and manage the whole cluster we will use Pacemaker cluster which uses OCF script as Cluster control scripts.
 
 A set of virtual machines will be setup to check that even with Zimbra 8 and Ubuntu 12.04 all the steps in the original instructions can be reproduced. These steps are: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
 

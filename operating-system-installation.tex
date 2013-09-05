@@ -8,12 +8,35 @@ This chapter explains the Operating System installation.
 \section {Introduction}
 The reason why Ubuntu 12.04 in its 64bit mode is used is because is one of the official supported Operating System for Zimbra 8 versions. We denote an external DRBD metadata as DRBD-Meta-Disk. We can understand it is an special partition that helps DRBD system to track changes between synchronised partitions between both primary and secondary nodes. We can find a more accurate definition at Linbit site: \cite{LinbitDRBDInternals}.
 
+These instructions are valid for both primary and secondary nodes. The only difference is that each one of them will have a different hostname.
+
+An Ubuntu Gnu/Linux installation might be as complex as of having Logical Volumes Group (LVM) for the ease of hard disk space management. In this installation we will avoid that kind of partitions so that final Pacemaker setup (Chapter \ref{chap:pacemaker-final-setup}) is easier.
+
 \section {Ubuntu 12.04 64 bit minimal}
 In order to track all the requisites and just install what the high availability system needs we will use an Ubuntu minimal disk for installation. These disks can be downloaded from \cite{UbuntuMinimalDisk}.
 
 The used download was: \textit{Ubuntu 12.04 "Precise Pangolin" Minimal CD} from the \textit{64-bit PC (amd64, x86\_64)} section. 
 
-\section {TODO: steps1}
+\subsection {Installer boot menu}
+We just press Return key to select default boot option: \textit{Install}.
+\subsection {Select a language}
+We choose the desired language: \textit{English}
+\subsection {Select your location}
+We choose our location: \textit{United States}
+\subsection {Configure the keyboard}
+We choose \textit{no} for semi automated keyboard detection. That let us choose \textit{English (US} as country of origin for the keyboard. Finally we select default \textit{English (US)} keyboard.
+\subsection {Network}
+The network detection will be automatically sorted out. Once we boot into the operating system we will setup network manually. We are asked our hostname. We choose: \textit{primary} in case we are installing primary node and \textit{secondary} in case we are installing secondary node.
+\subsection {Ubuntu archive mirror country}
+We select default \textit{United States} and its associated mirror: \textit{us.archive.ubuntu.com}. When asked for HTTP proxy information we just press Return key to continue.
+\subsection {Checking Ubuntu mirror}
+Ubuntu installation will perform some background checkings and downloads without the user being noticed. Then the installation suddenly continues by retrieving and installing additional packages and components.
+
+
+
+
+
+
 \section {Partitioning}
 Both virtual machines will have the same partitioning scheme. Both virtual machines have two hard disks.
 Assuming a 1.8 Terabyte hard disk in order to setup DRBD-Meta-Disk there's enough with 59 megabytes. We will be on the safe side and setup it with a 150 megabytes size. In order to safe calculate other DRBD meta disk partitions we can check \cite{LinbitDRBDInternals}.

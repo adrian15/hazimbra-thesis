@@ -692,17 +692,19 @@
     \let\footnotesize\small \let\footnoterule\relax \setcounter{page}{1}
     \vspace*{0.1in}
     \begin{center}
-      {\bf\expandafter\uppercase\expandafter{\@title}} \\[\@thesistitlebigskip]
-       by \\[\@thesistitlemedskip]
-      \@author \\[\@thesistitlebigskip]
-      \@doctype\ submitted in partial fulfillment of \\
-      the requirements for the degree of\\[\@thesistitlebigskip]
-      \@degree \\[\@thesistitlemedskip]
-      \@department \\[\@thesistitlebigskip]
-      at the \\[\@thesistitlebigskip]
-      Universitat de Lleida\\[\@thesistitlebigskip]
-      \@date
+      Universitat de Lleida\\
+      Escola Polit\`ecnica Superior\\
+      M\`aster en Enginyeria de Programari LLiure\\
+      [\@thesistitlebigskip]
+      Treball de final de m\`aster \\[\@thesistitlemedskip]
+      {\bf\expandafter\uppercase\expandafter{\@title}}
     \end{center}
+    \begin{flushright}
+      \vspace{0.6in}
+      Autor/a: \@author \\
+      Director/s: \@advisorname \\
+      \udlthesisdate\today
+    \end{flushright}
   \end{titlepage}
   \setcounter{footnote}{0}
   \setcounter{page}{1} %title page is NOT counted

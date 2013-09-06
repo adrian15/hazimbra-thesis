@@ -26,41 +26,90 @@ We choose our location: \textit{United States}
 \subsection {Configure the keyboard}
 We choose \textit{no} for semi automated keyboard detection. That let us choose \textit{English (US} as country of origin for the keyboard. Finally we select default \textit{English (US)} keyboard.
 \subsection {Network}
-The network detection will be automatically sorted out. Once we boot into the operating system we will setup network manually. We are asked our hostname. We choose: \textit{primary} in case we are installing primary node and \textit{secondary} in case we are installing secondary node.
+The network detection will be automatically sorted out if one our of interfaces is bridge in a network provided of a DHCP server. Once we boot into the operating system we will setup network manually. We are asked our hostname. We choose: \textit{primary} in case we are installing primary node and \textit{secondary} in case we are installing secondary node.
 \subsection {Ubuntu archive mirror country}
 We select default \textit{United States} and its associated mirror: \textit{us.archive.ubuntu.com}. When asked for HTTP proxy information we just press Return key to continue.
 \subsection {Checking Ubuntu mirror}
 Ubuntu installation will perform some background checkings and downloads without the user being noticed. Then the installation suddenly continues by retrieving and installing additional packages and components.
-
-
-
-
-
-
-\section {Partitioning}
-Both virtual machines will have the same partitioning scheme. Both virtual machines have two hard disks.
+\subsection {Set up users and passwords}
+We first are asked to write \textit{Full name for the new user} and then \textit{Username for the account}. We will provide both of them. We are also prompted twice the user password. When asked we choose not to encrypt the home directory.
+\subsection {Configure the clock}
+Given our detected physical location we just press Return key to validate it.
+\subsection {Partition disks}
+\subsubsection {Introduction}
 Assuming a 1.8 Terabyte hard disk in order to setup DRBD-Meta-Disk there's enough with 59 megabytes. We will be on the safe side and setup it with a 150 megabytes size. In order to safe calculate other DRBD meta disk partitions we can check \cite{LinbitDRBDInternals}.
 
-Hard Disk 1:
-\begin{verbatim}
-sda1 / 10GB ext4
-sda2 DRBD-Meta-Disk 150MB ext4
-sda3 (LVM Partition + Free space for LVM snapshots)
-\end{verbatim}
+We will not be using a SWAP partition because Zimbra works better without it. If a SWAP partition would be needed to be used we encourage to add it as a fixed size secondary hard disk.
 
-sda3 contains a LVM's Volume Group named zimbra.
-This Volume Group has a Logical Volume named zimbra also which doesn't ocuppy the full Volume Group space. The reason is that we reserver some space for snapshots when doing backups.
+TODO: According to Zimbra Performance Tunning Guidelines
 
-In our case we did:
-\begin{verbatim}
-VG zimbra: 1,8 TB
+\subsubsection {Manual partitioning}
+We select \textit{Manual} partitioning method. We then select our hard disk in our case: \textit{SCSI1 (0,0,0) (sda) - 107.4 GB ATA VBOX HARD DISK}. When asked to create a new empty partition table on the device we reply \textit{Yes}.
+Now we are back at Partition disk screen. For each one of the partitions to be created we should select \textit{FREE SPACE} under our hard disk. Then select create a new partition.  Once a partition has been defined we will confirm its settings by selecting \textit{Done setting up the partition}. We will describe in an schematic manner how the partitions should be created.
 
-  LV zimbra: 1770 GB
-  Free space: 30 GB
-\end{verbatim}
+\textbf{Root partition}
+\begin{itemize}
+  \item New partition size: \textit{10 GB}
+  \item Type for the new partition: \textit {Primary}
+  \item Location for the new partition: \textit{Beginning}
+\end{itemize}
+Partition settings for Root partition will be left as default except for the Bootable flag which should be set to \textit{on}. These were:
+\begin{itemize}
+  \item Use as: \textit{Ext4 Journaling file system}
+  \item Mount point: \textit{/}
+  \item Mount options: \textit{defaults}
+  \item Label:	\textit{none}
+  \item Reserved blocks: \textit{5\%}
+  \item Typical usage: \textit{standard}
+  \item Bootable flag: \textbf{\textit{on}}
+\end{itemize}
 
 
-Hard Disk 2:
-\begin{verbatim}
-sdb1 / 2 GB SWAP
-\end{verbatim}
+\textbf{DRBD-Meta-Disk partition}
+\begin{itemize}
+  \item New partition size: \textit{150 MB}
+  \item Type for the new partition: \textit {Primary}
+  \item Location for the new partition: \textit{Beginning}
+\end{itemize}
+Partition settings for DRBD-Meta-Disk partition were finally:
+\begin{itemize}
+  \item Use as: \textit{do not use}
+  \item Bootable flag: \textit{off}
+\end{itemize}
+
+\textbf{ZimbraData partition}
+\begin{itemize}
+  \item New partition size: \textit{Rest of disk space}
+  \item Type for the new partition: \textit {Primary}
+  \item Location for the new partition: \textit{Beginning}
+\end{itemize}
+Partition settings for ZimbraData partition were finally:
+\begin{itemize}
+  \item Use as: \textit{Ext4 Journaling file system}
+  \item Mount point: \textbf{\textit{/opt}}
+  \item Mount options: \textbf{\textit{defaults}}
+  \item Label:	\textit{none}
+  \item Reserved blocks: \textit{0\%}
+  \item Typical usage: \textit{standard}
+  \item Bootable flag: \textit{off}
+\end{itemize}
+We are using \textit{/opt} partition for Zimbra Data because Zimbra programs and its data is stored in \textbf{/opt/zimbra} by default.
+
+Now we are going to confirm all our created partitions by selecting \textit{Finish partitioning and write changes to disk}.
+When asked to return to the partitioning menu because a swap partition is needed we will just skip it by saying: \textit{No}. Finally we confirm that we want to write changes to disk by selecting: \textit{Yes}.
+
+\subsection {Configuring x11-common}
+We select: \textit{No automatic updates} when asked how to manage upgrades just to make things easier. In a production environment we must select \textit{Install security updates automatically}.
+
+\subsection {Software selection}
+When asked which software to install we will only check \textit{OpenSSH server} for installation in order to keep the installation as minimal and functional as possible.
+
+\subsection {Install the GRUB}
+When asked to Install teh GRUB boot loader to master boot record we select Yes.
+
+\subsection {Finish the installation}
+When we are asked if the system clock is set to UTC we select Yes. Once clock it's been set we need to do a change in Virtualbox. In the running Virtual machine we select \textit{Devices} menu, CD/DVD devices submenu and then we uncheck the minimal Ubuntu 12.04 64 bit iso.
+
+If asked we force unmount in Virtualbox.
+
+Finally we click on \textit{Continue} to finish the installation.

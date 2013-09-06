@@ -104,3 +104,6 @@ But now we make sure that we \textit{Adapter 2} is enabled as an \textit{Interna
 In order to make installation easier we will enable \textit{Adapter 3} in both virtual machines so that it can use the host Internet in order to fetch packages and perform post installation setup.
 
 Similarly to subsection \textbf{\ref{subsec:service-link-primary} Service link network on Primary Virtual Machine} we make sure that \textit{Adapter 3} is enabled and that it's attached to NAT.
+
+\subsection {Email client Virtual Machine}
+A Virtual Machine whose only purpose is to test high availability from a service link point of view might be added if needed. We're not to cover the installation and its setup here. We will just mention its network setup is similar to PrimaryZimbraHA and SecondaryZimbraHA but removing the second interface which serves for communication link and that, of course, doesn't make sense in an Email client VM.

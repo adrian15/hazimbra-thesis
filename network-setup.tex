@@ -8,14 +8,7 @@ This chapter explains the network setup.
 \section {Network schema}
 We can just check the High Availability main schema (figure \ref{fig:main-schema}) where network has been already described. There are three networks. The service link is the main network interface for serving content to the final users. The communication link, which it's used for the cluster management and syncronisation is done via a crossover cable. Finally NAT link gives the machines access to Internet.
 
-\section {VirtualBox Network Implementation}
-
-In order to implement this Network schema in VirtualBox the service link will be setup by the first virtual network card in each virtual machine. Both of these virtual network card will be setup in internal mode so that they believe to be connected via a virtual switch. The communication link will be setup by the second virtual network card in each virtual machine connected to a VirtualBox internal network, that means that they will be connected via a virtual switch given by Virtualbox which it's isolated from other networks.
-
-TODO: NAT link
-
-TODO: Add VirtualBox Network figure.
-
+For more detail on how it's implemented in Virtualbox we can check \textbf{\ref{sec:virtualbox-implementation} Virtualbox implementation} chapter.
 
 \section {Network setup}
 
@@ -23,6 +16,7 @@ TODO: Add VirtualBox Network figure.
 \subsubsection {Service link}
 Primary server's Service link network setup consists of a Class C configuration where the network card address is 192.168.77.201, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 192.168.77.255.
 
+The correspondent configuration code for \textit{/etc/network/interfaces} file is:
 \begin{verbatim}
 auto eth0
 iface eth0 inet static
@@ -34,6 +28,9 @@ iface eth0 inet static
 \subsubsection {Communication link}
 Primary server's Communication link network setup consists of a Class C configuration where the network card address is 10.0.2.201, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 10.0.2.255. As a gateway it will be using the first network address in the network range which it's 10.0.2.1.
 
+TODO: Check if 10.0.2.X is not the Virtualbox default for NAT!!!
+
+The correspondent configuration code for \textit{/etc/network/interfaces} file is:
 \begin{verbatim}
 auto eth0
 iface eth0 inet static
@@ -45,9 +42,10 @@ iface eth0 inet static
 \subsubsection {Service link}
 Secondary server's Service link network setup consists of a Class C configuration where the network card address is 192.168.77.202, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 192.168.77.255.
 
+The correspondent configuration code for \textit{/etc/network/interfaces} file is:
 \begin{verbatim}
-auto eth0
-iface eth0 inet static
+auto eth1
+iface eth1 inet static
         address 192.168.77.202
         netmask 255.255.255.0
         broadcast 192.168.77.255
@@ -56,18 +54,60 @@ iface eth0 inet static
 \subsubsection {Communication link}
 Secondary server's Communication link network setup consists of a Class C configuration where the network card address is 10.0.2.202, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 10.0.2.255. As a gateway it will be using the first network address in the network range which it's 10.0.2.1.
 
+TODO: Check if 10.0.2.X is not the Virtualbox default for NAT!!!
+
+The correspondent configuration code for \textit{/etc/network/interfaces} file is:
 \begin{verbatim}
-auto eth0
-iface eth0 inet static
+auto eth1
+iface eth1 inet static
         address 10.0.2.202
         netmask 255.255.255.0
         broadcast 10.0.2.255
 \end{verbatim}
 
-TODO: NAT Link
+\subsubsection {NAT link}
+Nat link depends on Virtualbox setup for NAT.
 
 \section {Firewall}
+Our default Ubuntu minimal installation doesn't have 
+\subsection {Zimbra ports}
+These are the Zimbra ports that would need to be open in a production evironment (\cite{ZimbraWikiPorts}):
+\begin{itemize}
+  \item 25 smtp [mta] - incoming mail to postfix
+  \item 80 http [mailbox] - web mail client
+  \item 110 pop3 [mailbox]
+  \item 143 imap [mailbox]
+  \item 443 https [mailbox] - web mail client over ssl
+  \item 465 smtps [mta] - incoming mail to postfix over ssl (Outlook only)
+  \item 587 smtp [mta] - Mail submission over tls
+  \item 993 imaps [mailbox] - imap over ssl
+  \item 995 pops [mailbox] - pop over ssl
+  \item 7071 https [mailbox] - admin console
+\end{itemize}
+And these are the Zimbra ports typically only used by the zimbra system itself (\cite{ZimbraWikiPorts}).
+\begin{itemize}
+  \item 389 ldap [ldap]
+  \item 636 ldaps [ldaps, if enabled]
+  \item 7025 lmtp [mailbox] - local mail delivery
+  \item 7047 conversion server
+  \item 7306 mysql [mailbox]
+  \item 7307 mysql [logger] - logger
+  \item 7780 http [mailbox] - spell check
+  \item 10024 smtp [mta] - to amavis from postfix
+  \item 10025 smtp [mta] - back to postfix from amavis
+\end{itemize}
+System access ports (\cite{ZimbraWikiPorts}) are:
+\begin{itemize}
+  \item 22 ssh
+  \item 514 syslogd [logger] (udp)
+\end{itemize}
 
-TODO: Describe firewall. Ports that have been left opened.
+\subsection {High Availability ports}
+In the service link interfaces we need to make sure these ports are accesible from one node to another:
+\begin{itemize}
+  \item Corosync communication port: 5405 (udp)
+  \item Corosync communication port: 5404 (udp)
+  \item DRBD: 7788
+\end{itemize}
 
 

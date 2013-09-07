@@ -26,17 +26,16 @@ iface eth0 inet static
 \end{verbatim}
 
 \subsubsection {Communication link}
-Primary server's Communication link network setup consists of a Class C configuration where the network card address is 10.0.2.201, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 10.0.2.255. As a gateway it will be using the first network address in the network range which it's 10.0.2.1.
+Primary server's Communication link network setup consists of a Class C configuration where the network card address is 10.0.66.201, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 10.0.66.255. As a gateway it will be using the first network address in the network range which it's 10.0.66.1.
 
-TODO: Check if 10.0.2.X is not the Virtualbox default for NAT!!!
 
 The correspondent configuration code for \textit{/etc/network/interfaces} file is:
 \begin{verbatim}
 auto eth0
 iface eth0 inet static
-        address 10.0.2.201
+        address 10.0.66.201
         netmask 255.255.255.0
-        broadcast 10.0.2.255
+        broadcast 10.0.66.255
 \end{verbatim}
 \subsection {Secondary server}
 \subsubsection {Service link}
@@ -52,17 +51,15 @@ iface eth1 inet static
 \end{verbatim}
 
 \subsubsection {Communication link}
-Secondary server's Communication link network setup consists of a Class C configuration where the network card address is 10.0.2.202, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 10.0.2.255. As a gateway it will be using the first network address in the network range which it's 10.0.2.1.
-
-TODO: Check if 10.0.2.X is not the Virtualbox default for NAT!!!
+Secondary server's Communication link network setup consists of a Class C configuration where the network card address is 10.0.66.202, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 10.0.66.255. As a gateway it will be using the first network address in the network range which it's 10.0.66.1.
 
 The correspondent configuration code for \textit{/etc/network/interfaces} file is:
 \begin{verbatim}
 auto eth1
 iface eth1 inet static
-        address 10.0.2.202
+        address 10.0.66.202
         netmask 255.255.255.0
-        broadcast 10.0.2.255
+        broadcast 10.0.66.255
 \end{verbatim}
 
 \subsubsection {NAT link}

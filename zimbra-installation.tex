@@ -5,10 +5,287 @@
 \label{chap:zimbra-installation}
 This chapter explains the Zimbra OSE installation.
 
+\section {Operating system checks}
+\subsection {Primary node /etc/hosts}
+\textbf{Only in primary node}
+We will make sure in \textit{/etc/hosts} file that we have:
+
+\begin{verbatim}
+192.168.77.201 public.zimbraha.lan public
+\end{verbatim}
+\subsection {Secondary node /etc/hosts}
+\textbf{Only in secondary node}
+We will make sure in \textit{/etc/hosts} file that we have:
+
+\begin{verbatim}
+192.168.77.202 public.zimbraha.lan public
+\end{verbatim}
+\subsection {/etc/hostname}
+\textbf{On both nodes} we will make sure that \textit{/etc/hostname} contains:
+
+\begin{verbatim}
+public
+\end{verbatim}
+. In order to apply changes we will run:
+\begin{verbatim}
+service hostname restart
+\end{verbatim}
+
+\section {Package requirements}
+\textbf{On both nodes} we will make sure we meet the Zimbra system package requirements.
+
+\begin{verbatim}
+sudo apt-get install libgmp3c2 libexpat1 \
+libstdc++6 sysstat libpcre3 libperl5.14 \
+sqlite3 libidn11 pax
+\end{verbatim}
+
 \section {Zimbra 8.0.4 for Ubuntu 12.04}
+\textbf{On both nodes}
 Zimbra 8.0.4 for Ubuntu 12.04 in form of a tar.gz file was downloaded from \cite{Zimbra8Download}.
 Once downloaded is advised to check its md5sum. Finally we untar it and cd into the untarred directory.
 
-\section {Install script launch}
+First we download tgz file and its md5sum file:
+\begin{verbatim}
+wget "http://files2.zimbra.com\
+/downloads/8.0.4_GA/zcs-8.0.4\
+_GA_5737.UBUNTU12_64\
+.20130524120036.tgz.md5"
+
+wget "http://files2.zimbra.com\
+/downloads/8.0.4_GA/zcs-8.0.4\
+_GA_5737.UBUNTU12_64\
+.20130524120036.tgz"
+\end{verbatim}
+Then we check if the download is correct by calculating its md5sum:
+\begin{verbatim}
+md5sum -c zcs-8.0.4\
+_GA_5737.UBUNTU12_64\
+.20130524120036.tgz.md5
+\end{verbatim}
+If md5sum is correct you will see:
+\begin{verbatim}
+zcs-8.0.4_GA_5737.UBUNTU12_64.20130524120036.tgz: OK
+\end{verbatim}
+Finally we untar it:
+\begin{verbatim}
+tar xzf zcs-8.0.4\
+_GA_5737.UBUNTU12_64\
+.20130524120036.tgz
+\end{verbatim}
+
+\section {Complete Install script on Primary}
+\subsection {Installation start}
+\textbf{Only on primary node} we will change directory into Zimbra installation directory and run installation script:
+
+\begin{verbatim}
+cd zcs-8.0.4_GA_5737.UBUNTU12_64.20130524120036
+./install.sh
+\end{verbatim}
+\subsection {License agreeement}
+We will have to agree with the terms of the software license agreement by typing \textit{Yes} and pressing Return key.
+
+\subsection {\label{subsec:zimbra-packages-install}Zimbra packages install}
+Now we are requested which Zimbra packages we want to install. We will choose the default ones.
+
+\begin{verbatim}
+Select the packages to install
+
+Install zimbra-ldap [Y] 
+
+Install zimbra-logger [Y] 
+
+Install zimbra-mta [Y] 
+
+Install zimbra-snmp [Y] 
+
+Install zimbra-store [Y] 
+
+Install zimbra-apache [Y] 
+
+Install zimbra-spell [Y] 
+
+Install zimbra-memcached [N] 
+
+Install zimbra-proxy [N] 
+\end{verbatim}
+
+We are told that the system will be modified and if we want to continue. We reply \textit{Yes}.
+
+Zimbra packages installation is being performed.
+
+\subsection {Change hostname}
+When asked:
+\begin{verbatim}
+DNS ERROR resolving public.zimbraha.lan
+It is suggested that the hostname be resolvable via DNS
+Change hostname [Yes]
+\end{verbatim}
+we will ignore it and say that we don't want to change it with: \textit{No}.
+
+In a production environment we will need to make sure an A DNS field so that public.zimbraha.lan resolves to its public ip or internal ip.
+
+\subsection {Change domain name}
+When asked:
+\begin{verbatim}
+DNS ERROR resolving MX for public.zimbraha.lan
+It is suggested that the domain name have an MX record configured in DNS
+Change domain name? [Yes] 
+\end{verbatim}
+we will change the domain name and specify \textit{zimbraha.lan}. As DNS isn't setup the same question will be asked. We will answer that \textit{No} we don't want to re-enter domain name.
+
+\subsection {Set password and apply}
+We are shown the zmsetup script:
+\begin{verbatim}
+Main menu
+
+   1) Common Configuration:                                                  
+   2) zimbra-ldap:                             Enabled                       
+   3) zimbra-store:                            Enabled                       
+        +Create Admin User:                    yes                           
+        +Admin user to create:                 admin@zimbraha.lan            
+******* +Admin Password                        UNSET                         
+        +Anti-virus quarantine user:           virus-quarantine.
+						  uthvrv6amf@zimbraha.lan
+        +Enable automated spam training:       yes                           
+        +Spam training user:                   spam.aw9h_i7ms@zimbraha.lan   
+        +Non-spam(Ham) training user:          ham.djdehqsd@zimbraha.lan     
+        +SMTP host:                            public.zimbraha.lan           
+        +Web server HTTP port:                 80                            
+        +Web server HTTPS port:                443                           
+        +Web server mode:                      https                         
+        +IMAP server port:                     143                           
+        +IMAP server SSL port:                 993                           
+        +POP server port:                      110                           
+        +POP server SSL port:                  995                           
+        +Use spell check server:               yes                           
+        +Spell server URL:                     http://public.
+						  zimbraha.lan:7780/aspell.php
+        +Configure for use with mail proxy:    FALSE                         
+        +Configure for use with web proxy:     FALSE                         
+        +Enable version update checks:         TRUE                          
+        +Enable version update notifications:  TRUE                          
+        +Version update notification email:    admin@zimbraha.lan            
+        +Version update source email:          admin@zimbraha.lan            
+
+   4) zimbra-mta:                              Enabled                       
+   5) zimbra-snmp:                             Enabled                       
+   6) zimbra-logger:                           Enabled                       
+   7) zimbra-spell:                            Enabled                       
+   8) Default Class of Service Configuration:                                
+   r) Start servers after configuration        yes                           
+   s) Save config to file                                                    
+   x) Expand menu                                                            
+   q) Quit
+\end{verbatim}
+we will type \textit{3} in order to select \textit {zimbra-store} configuration.
+
+We are shown Store configuration:
+\begin{verbatim}
+Store configuration
+
+   1) Status:                                  Enabled                       
+   2) Create Admin User:                       yes                           
+   3) Admin user to create:                    admin@zimbraha.lan            
+** 4) Admin Password                           UNSET                         
+   5) Anti-virus quarantine user:              virus-quarantine.
+						  uthvrv6amf@zimbraha.lan
+   6) Enable automated spam training:          yes                           
+   7) Spam training user:                      spam.aw9h_i7ms@zimbraha.lan   
+   8) Non-spam(Ham) training user:             ham.djdehqsd@zimbraha.lan     
+   9) SMTP host:                               public.zimbraha.lan           
+  10) Web server HTTP port:                    80                            
+  11) Web server HTTPS port:                   443                           
+  12) Web server mode:                         https                         
+  13) IMAP server port:                        143                           
+  14) IMAP server SSL port:                    993                           
+  15) POP server port:                         110                           
+  16) POP server SSL port:                     995                           
+  17) Use spell check server:                  yes                           
+  18) Spell server URL:                        http://public.
+						  zimbraha.lan:7780/aspell.php
+  19) Configure for use with mail proxy:       FALSE                         
+  20) Configure for use with web proxy:        FALSE                         
+  21) Enable version update checks:            TRUE                          
+  22) Enable version update notifications:     TRUE                          
+  23) Version update notification email:       admin@zimbraha.lan            
+  24) Version update source email:             admin@zimbraha.lan            
+
+Select, or 'r' for previous menu [r] 
+\end{verbatim}
+we will select \textit{4} for \textit{Admin password}.
+
+We're shown:
+\begin{verbatim}
+Password for admin@zimbraha.lan (min 6 characters): [31I2YlBw3]
+\end{verbatim}
+
+We will just press enter to accept suggested password.
+
+Now setup is complete:
+\begin{verbatim}
+Main menu
+
+   1) Common Configuration:                                                  
+   2) zimbra-ldap:                             Enabled                       
+   3) zimbra-store:                            Enabled                       
+   4) zimbra-mta:                              Enabled                       
+   5) zimbra-snmp:                             Enabled                       
+   6) zimbra-logger:                           Enabled                       
+   7) zimbra-spell:                            Enabled                       
+   8) Default Class of Service Configuration:                                
+   r) Start servers after configuration        yes                           
+   s) Save config to file                                                    
+   x) Expand menu                                                            
+   q) Quit                                    
+
+*** CONFIGURATION COMPLETE - press 'a' to apply
+Select from menu, or press 'a' to apply config (? - help) 
+
+\end{verbatim}
 
 
+We press \textit{r} to return to previous menu and finally we apply the configuration by pressing \textit{a}.
+
+We're asked to save configuration data to a file and we are offered a file name for it. We will just accept defaults:
+\begin{verbatim}
+Save configuration data to a file? [Yes] 
+Save config in file: [/opt/zimbra/config.21624] 
+Saving config in /opt/zimbra/config.21624...done.
+\end{verbatim}
+
+When informed that the system will be modified we will just said that \textit{Yes} we want to continue.
+
+\begin{verbatim}
+The system will be modified - continue? [No] 
+\end{verbatim}
+
+\subsection {Zimbra notification}
+We are asked to notify Zimbra of our installation. We will reply \textit{No}.
+
+\begin{verbatim}
+You have the option of notifying Zimbra of your installation.
+This helps us to track the uptake of the Zimbra Collaboration Server.
+The only information that will be transmitted is:
+        The VERSION of zcs installed (8.0.4_GA_5737_UBUNTU12_64)
+        The ADMIN EMAIL ADDRESS created (admin@zimbraha.lan)
+
+Notify Zimbra of your installation? [Yes]
+\end{verbatim}
+
+\subsection {End of installation}
+Installation ends with this message where we can just press Return.
+
+\begin{verbatim}
+Configuration complete - press return to exit
+\end{verbatim}
+
+\section {Dummy installation on Secondary}
+\textbf{Only on secondary node} we will change directory into Zimbra installation directory and run installation script with software only installation switch:
+
+\begin{verbatim}
+./install.sh -s
+\end{verbatim}
+. This will perform a dummy installation where only system files are copied but not Zimbra files themselves. We don't need the full installation on secondary node because the main Zimbra data will be shared from primary node.
+
+Installation steps are the same ones as the described in subsection {\ref{subsec:zimbra-packages-install} Zimbra packages install}.

@@ -12,6 +12,13 @@ For more detail on how it's implemented in Virtualbox we can check \textbf{\ref{
 
 \section {Network setup}
 
+\subsection {High Availability Cluster FQDN}
+High Availability server FQDN will be:
+\begin{verbatim}
+public.zimbraha.lan
+\end{verbatim}
+
+
 \subsection {Primary server}
 \subsubsection {Service link}
 Primary server's Service link network setup consists of a Class C configuration where the network card address is 192.168.77.201, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 192.168.77.255.
@@ -37,6 +44,14 @@ iface eth0 inet static
         netmask 255.255.255.0
         broadcast 10.0.66.255
 \end{verbatim}
+\subsection {FQDN}
+Fully Qualified Domain Name for primary server will be:
+\begin{verbatim}
+primary.zimbraha.lan
+\end{verbatim}
+\subsection {Additional links}
+In order to have Internet connectivity an additional link set as a NAT interface in Virtualbox will be added.
+
 \subsection {Secondary server}
 \subsubsection {Service link}
 Secondary server's Service link network setup consists of a Class C configuration where the network card address is 192.168.77.202, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 192.168.77.255.
@@ -61,9 +76,13 @@ iface eth1 inet static
         netmask 255.255.255.0
         broadcast 10.0.66.255
 \end{verbatim}
-
-\subsubsection {NAT link}
-Nat link depends on Virtualbox setup for NAT.
+\subsection {FQDN}
+Fully Qualified Domain Name for secondary server will be:
+\begin{verbatim}
+secondary.zimbraha.lan
+\end{verbatim}
+\subsection {Additional links}
+In order to have Internet connectivity an additional link set as a NAT interface in Virtualbox will be added.
 
 \section {Firewall}
 Our default Ubuntu minimal installation doesn't have 

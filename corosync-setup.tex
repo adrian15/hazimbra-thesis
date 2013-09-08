@@ -17,7 +17,6 @@ We create the file:
 \end{verbatim}
 which its contents will be:
 
-TODO: Change zhatest-01-comm-ip and zhatest-02-comm-ip with actual ips
 TODO: Explain a bit the settings in the file
 
 \begin{verbatim}
@@ -68,13 +67,13 @@ totem {
 
 interface {
 		member {
-			memberaddr: zhatest-01-comm-ip
+			memberaddr: 10.0.66.201
 		}
 		member {
-			memberaddr: zhatest-02-comm-ip
+			memberaddr: 10.0.66.202
 		}
         ringnumber: 0
-        bindnetaddr: zhatest-01-comm-ip
+        bindnetaddr: 10.0.66.201
         mcastport: 5405
         }
 		transport: udpu
@@ -118,7 +117,6 @@ We create the file:
 \end{verbatim}
 which its contents will be:
 
-TODO: Change zhatest-01-comm-ip and zhatest-02-comm-ip with actual ips
 TODO: Explain a bit the settings in the file
 
 \begin{verbatim}
@@ -169,13 +167,13 @@ totem {
 
 interface {
 		member {
-			memberaddr: zhatest-01-comm-ip
+			memberaddr: 10.0.66.201
 		}
 		member {
-			memberaddr: zhatest-02-comm-ip
+			memberaddr: 10.0.66.202
 		}
         ringnumber: 0
-        bindnetaddr: zhatest-02-comm-ip
+        bindnetaddr: 10.0.66.202
         mcastport: 5405
         }
 		transport: udpu
@@ -212,7 +210,7 @@ tags: enter|leave|trace1|trace2|trace3|trace4|trace6
 \end{verbatim}
 
 \section {Corosync's Authkey}
-In the primary server we will create the file:
+In \textbf{primary node} we will create the file:
 \begin{verbatim}
 /etc/corosync/authkey
 \end{verbatim}
@@ -220,20 +218,19 @@ thanks to running:
 \begin{verbatim}
 corosync-keygen
 \end{verbatim}
-.
+We might be requested to press keys on our keyboard to generate entropy.
 
-In order to secure it we will need to run:
+Once the file created we will copy the very same file to the \textbf{secondary node} in the same path as in primary server.
+
+In order to secure it in secondary node we will need to run:
 \begin{verbatim}
 chown root:root /etc/corosync/authkey
 chmod 400 /etc/corosync/authkey
 \end{verbatim}
-.
-
-Once the file created we will copy the very same file to the secondary server in the same path as in primary server.
 
 \section {Cfgtool}
 
-In both servers we need to edit:
+In \textbf{both nodes} we need to edit:
 \begin{verbatim}
 /etc/rc.local
 \end{verbatim}
@@ -250,7 +247,7 @@ line.
 TODO: That makes run corosync cfgtool at boot to inforce... WHAT?
 
 \section {Corosync startup enabling}
-In order to enable Corosync at boot we need to edit:
+In \textbf{both nodes} in order to enable Corosync at boot we need to edit:
 \begin{verbatim}
 /etc/default/corosync
 \end{verbatim}
@@ -265,7 +262,7 @@ START=yes
 .
 
 \section {Corosync reboot and check}
-In order to check Corosync startup we need to reboot the machine thanks to:
+In \textbf{both nodes} in order to check Corosync startup we need to reboot the machine thanks to:
 \begin{verbatim}
 sync
 shutdown -r now
@@ -276,6 +273,21 @@ Once the machine has rebooted we can cluster status thanks to:
 \begin{verbatim}
 crm_mon
 \end{verbatim}
-.
 
-TODO: Add some explanation on how to check if cluster is ok. What are the standard message for OK and KO errors.
+In order to check that everything is ok we need to make sure that the output shown in both nodes is the same one.
+If both nodes are shown inside Online line that means that both nodes are detected to be online from the Pacemaker point of view.
+
+Here there is a crm\_mon output where both nodes are online:
+\begin{verbatim}
+============
+Last updated: Sun Sep  8 13:06:11 2013
+Last change: Sun Sep  8 13:04:19 2013 via crmd on primary
+Stack: openais
+Current DC: primary - partition with quorum
+Version: 1.1.6-9971ebba4494012a93c03b40a2c58ec0eb60f50c
+2 Nodes configured, 2 expected votes
+0 Resources configured.
+============
+
+Online: [ secondary primary ]
+\end{verbatim}

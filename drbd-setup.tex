@@ -23,7 +23,7 @@ For the purpose of both DRBD and Corosync communication we need to define our ho
 10.0.66.202 secondary.zimbraha.lan secondary
 \end{verbatim}
 
-\section {Zimbra stop}
+\section {Disable Zimbra}
 As Zimbra is using the DRBD backing device which it is \textit{/dev/sda3} we need to unmount it and that means that we need to stop Zimbra services before doing so.
 
 So we will first stop zimbra on \textbf{primary node} by doing:
@@ -34,6 +34,14 @@ service zimbra stop
 And then in \textbf{both nodes} we will umount the partition with:
 \begin{verbatim}
 sudo umount /dev/sda3
+\end{verbatim}
+and make sure that the partition is not mounted automatically by editing:
+\begin{verbatim}
+/etc/fstab
+\end{verbatim}
+and commenting its line:
+\begin{verbatim}
+#UUID="f23efeab" /opt ext4 errors=remount-ro 0 1
 \end{verbatim}
 
 \section {DRBD Resource config}
@@ -165,4 +173,3 @@ srcversion: 93CE421BB73A731BDC72D8E
     ns:5691029 nr:0 dw:0 dr:6002290 al:0 bm:367 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:0
 \end{verbatim}
 where we can see that both primary and secondary are updated (\textit{UpToDate}).
-

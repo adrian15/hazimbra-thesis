@@ -14,12 +14,30 @@ We will install DRBD packages for the Ubuntu 12.04 system thanks to the followin
 \begin{verbatim}
 sudo apt-get install drbd8-utils
 \end{verbatim}
-.
+in both nodes.
+\section {Communication hosts}
+For the purpose of both DRBD and Corosync communication we need to define our hosts from the communication link point of view. We need to edit \textit{/etc/hosts} and make sure we have \textbf{in both nodes}:
 
+\begin{verbatim}
+10.0.66.201 primary.zimbraha.lan primary
+10.0.66.202 secondary.zimbraha.lan secondary
+\end{verbatim}
 
+\section {Zimbra stop}
+As Zimbra is using the DRBD backing device which it is \textit{/dev/sda3} we need to unmount it and that means that we need to stop Zimbra services before doing so.
+
+So we will first stop zimbra on \textbf{primary node} by doing:
+\begin{verbatim}
+service zimbra stop
+\end{verbatim}
+
+And then in \textbf{both nodes} we will umount the partition with:
+\begin{verbatim}
+sudo umount /dev/sda3
+\end{verbatim}
 
 \section {DRBD Resource config}
-\textbf{To be performed in both servers}.
+\textbf{To be performed in both nodes}.
 
 We will backup main drbd configuration file:
 \begin{verbatim}
@@ -33,9 +51,14 @@ We then need to edit:
 \end{verbatim}
 so that it has:
 \begin{verbatim}
+include "drbd.d/global_common.conf";
+include "drbd.d/*.res";
+
 resource zimbradata {
   protocol C;
-  incon-degr-cmd "halt -f";
+  handlers {
+    pri-on-incon-degr "halt -f";
+  }
   startup {
     degr-wfc-timeout 120; # 2 min
   }
@@ -46,19 +69,18 @@ resource zimbradata {
   }
   syncer {
     rate 10M;
-    group 1;
     al-extents 257;
   }
-  on zhatest-01.dominio.com {
+  on primary {
     device /dev/drbd0;
-    disk /dev/zimbra/zimbra;
-    address zhatest-01-comm-ip:7788;
+    disk /dev/sda3;
+    address 10.0.66.201:7788;
     meta-disk /dev/sda2[0];
   }
-  on zhatest-02.dominio.com {
+  on secondary {
     device /dev/drbd0;
-    disk /dev/zimbra/zimbra;
-    address zhatest-02-comm-ip:7788;
+    disk /dev/sda3;
+    address 10.0.66.202:7788;
     meta-disk /dev/sda2[0];
   }
 }
@@ -87,19 +109,28 @@ drbdadm create-md zimbradata
 \end{verbatim}
 .
 
+The output for both servers will similar to:
+\begin{verbatim}
+Writing meta data...
+initializing activity log
+NOT initialized bitmap
+New drbd meta data block successfully created.
+success
+\end{verbatim}
+if sucedeed.
+
 \section {First DRBD synchronisation}
 \textbf{To be performed in both servers}.
 \begin{verbatim}
 drbdadm up all
 \end{verbatim}
-where we shouldn't find any incorrect hostname errors.
-TODO: Rewrite last line.
+If everything goes ok we should return to the prompt.
 
-We will be asked about usage survey, we just reply that we don't want to participate by saying 'no'.
+Were we will asked about usage, we just reply that we don't want to participate in the survey by saying 'no'.
 
 \textbf{To be performed in Primary server only}.
 \begin{verbatim}
-drbdadm -- --do-what-I-say primary all
+drbdadm -- --overwrite-data-of-peer primary all
 drbdadm -- connect all
 \end{verbatim}
 .
@@ -124,7 +155,7 @@ finish: 1:14:16 speed: 2,644 (2,204) K/sec
 \end{verbatim}
 .
 
-We must wait for the process to finish in order to continue.
+We must wait for the first synchronisation to end so that we can safely complete the rest of the instructions.
 
 
 

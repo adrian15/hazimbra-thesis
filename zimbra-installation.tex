@@ -21,15 +21,17 @@ We will make sure in \textit{/etc/hosts} file that we have:
 192.168.77.202 public.zimbraha.lan public
 \end{verbatim}
 \subsection {/etc/hostname}
-\textbf{On both nodes} we will make sure that \textit{/etc/hostname} contains:
+\textbf{On primary node} we will make sure that \textit{/etc/hostname} contains:
 
 \begin{verbatim}
-public
+primary
 \end{verbatim}
 . In order to apply changes we will run:
 \begin{verbatim}
 service hostname restart
 \end{verbatim}
+
+Same operation but using \textit{secondary} will need to be performed \textbf{on secondary node}.
 
 \section {Package requirements}
 \textbf{On both nodes} we will make sure we meet the Zimbra system package requirements.
@@ -117,18 +119,18 @@ Zimbra packages installation is being performed.
 \subsection {Change hostname}
 When asked:
 \begin{verbatim}
-DNS ERROR resolving public.zimbraha.lan
+DNS ERROR resolving primary.zimbraha.lan
 It is suggested that the hostname be resolvable via DNS
 Change hostname [Yes]
 \end{verbatim}
-we will ignore it and say that we don't want to change it with: \textit{No}.
+we will change it (\textit{Yes}) so that it says: \textit{public.zimbraha.lan}.
 
 In a production environment we will need to make sure an A DNS field so that public.zimbraha.lan resolves to its public ip or internal ip.
 
 \subsection {Change domain name}
 When asked:
 \begin{verbatim}
-DNS ERROR resolving MX for public.zimbraha.lan
+DNS ERROR resolving MX for primary.zimbraha.lan
 It is suggested that the domain name have an MX record configured in DNS
 Change domain name? [Yes] 
 \end{verbatim}

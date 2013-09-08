@@ -35,7 +35,7 @@ Pacemaker is an Open Source, High Availability resource manager suitable for bot
 \end{itemize}
 
 \section {Corosync installation}
-We just need to install Corosync packages for Ubuntu 12.04.
+\textbf{In both nodes} we just need to install Corosync packages for Ubuntu 12.04.
 
 We need to issue this command:
 \begin{verbatim}
@@ -44,9 +44,23 @@ apt-get install corosync
 
 
 \section {Pacemaker installation}
-We just need to install Pacemaker packages for Ubuntu 12.04.
+\textbf{In both nodes} we just need to install Pacemaker packages for Ubuntu 12.04.
 
 We need to issue this command:
 \begin{verbatim}
 apt-get install pacemaker
+\end{verbatim}
+
+We can safely ignore this warning:
+\begin{verbatim}
+Warning: The home dir /var/lib/heartbeat
+ you specified already exists.
+Adding system user `hacluster' (UID 105) ...
+Adding new user `hacluster' (UID 105) with group `haclient' ...
+The home directory `/var/lib/heartbeat' already exists.
+ Not copying from `/etc/skel'.
+adduser: Warning: The home directory `/var/lib/heartbeat'
+ does not belong to the user you are currently creating.
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
 \end{verbatim}

@@ -10,6 +10,54 @@ TODO: The described. Find a better rewording.
 \section {Introduction}
 Most of these examples have been extracted from Clusters From Scratch (\cite{ClustersFromScratch}) document . At Zimbra Forums Zimbra on Pacemaker + DRBD howto thread (\cite{ZForumsTaer}) we can find a Zimbra 8 High Availability Howto (\cite{TaerHowtoHAZimbra8}) where we can find more every-day uses of Pacemaker examples.
 
+\section {DRBD Split Brain recovery}
+
+Split brain is a situation where, due to temporary failure of all network links between cluster nodes, and possibly due to intervention by a cluster management software or human error, both nodes switched to the primary role while disconnected. This is a potentially harmful state, as it implies that modifications to the data might have been made on either node, without having been replicated to the peer. Thus, it is likely in this situation that two diverging sets of data have been created, which cannot be trivially merged (\cite{DrbdSplitBrain}).
+
+This is an example of \textit{cat /proc/drbd} output:
+\begin{verbatim}
+version: 8.3.11 (api:88/proto:86-96)
+srcversion: 93CE421BB73A731BDC72D8E 
+ 0: cs:WFConnection ro:Primary/Unknown ds:UpToDate/DUnknown C r-----
+    ns:0 nr:0 dw:0 dr:1977 al:0 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:153220
+\end{verbatim}
+where there is an split brain.
+
+In order to fix it we can decide that primary node contents will prevail and that secondary node contents will be discarded. First of all we will need to stop the cluster on \textbf{both nodes} thanks to:
+\begin{verbatim}
+service corosync stop
+\end{verbatim}
+.
+
+Then we need to start drbd service manually in \textbf{both nodes} thanks to:
+\begin{verbatim}
+service drbd start
+\end{verbatim}
+
+First of all \textbf{in secondary node} we will discard its data with:
+\begin{verbatim}
+drbdadm secondary zimbradata
+drbdadm -- --discard-my-data connect zimbradata
+\end{verbatim}
+Then we will need to run \textbf{in primary node}:
+\begin{verbatim}
+drbdadm connect zimbradata
+\end{verbatim}
+
+Once we check that \textit{cat /proc/drbd} has a non split brain state like:
+\begin{verbatim}
+version: 8.3.11 (api:88/proto:86-96)
+srcversion: 93CE421BB73A731BDC72D8E 
+ 0: cs:Connected ro:Primary/Secondary ds:UpToDate/UpToDate C r-----
+    ns:5691029 nr:0 dw:0 dr:6002290 al:0 bm:367 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:0
+\end{verbatim}
+we can restart the cluster with running (\textbf{in both nodes}):
+\begin{verbatim}
+service drbd stop
+service corosync start
+\end{verbatim}
+so that drbd is not handled manually and the cluster takes care of it.
+
 \section {Host down simulation}
 These commands simulate that a host is down by stopping both pacemaker and corosync services. We will run them only in the primary server. The secondary server is supposed to take control of the cluster system and start Zimbra.
 
@@ -36,18 +84,43 @@ In order to check the overall Cluster status we just run the cluster management 
 crm_mon
 \end{verbatim}
 
+One example of crm\_mon output where the cluster has not problems at all is:
+\begin{verbatim}
+============
+Last updated: Sun Sep  8 23:28:38 2013
+Last change: Sun Sep  8 23:24:33 2013 via cibadmin on primary
+Stack: openais
+Current DC: secondary - partition with quorum
+Version: 1.1.6-9971ebba4494012a93c03b40a2c58ec0eb60f50c
+2 Nodes configured, 2 expected votes
+5 Resources configured.
+============
+
+Online: [ secondary primary ]
+
+ Master/Slave Set: ZimbraDataClone [ZimbraData]
+     Masters: [ primary ]
+     Slaves: [ secondary ]
+ Resource Group: MySystem
+     ClusterIP  (ocf::heartbeat:IPaddr2):       Started primary
+ Resource Group: MyZimbra
+     ZimbraFS   (ocf::heartbeat:Filesystem):    Started primary
+     ZimbraServer       (ocf::btactic:zimbra):  Started primary
+\end{verbatim}
+
+
 TODO: Add an crm\_mon output as a listing and make a reference to it
 
 \section {Move cluster resources temporarily}
 In the case that we want to move \textit{temporarily} resources to primary server we should run:
 \begin{verbatim}
-crm resource move ZimbraServer zhatest-01
+crm resource move ZimbraServer primary
 \end{verbatim}
 
 \section {Disable cluster resources temporarily movement}
 If we want to return Resource control to the cluster we can run:
 \begin{verbatim}
-crm resource unmove zhatest-01
+crm resource unmove primary
 \end{verbatim}
 . In our setup, thanks to our defined stickiness the cluster won't perform any resource movement.
 
@@ -64,6 +137,34 @@ crm_mon
 \end{verbatim}
 .
 
+This is a crm\_mon output while node is migrating from primary node to secondary node:
+\begin{verbatim}
+============
+Last updated: Sun Sep  8 23:33:41 2013
+Last change: Sun Sep  8 23:31:50 2013 via crm_attribute on primary
+Stack: openais
+Current DC: secondary - partition with quorum
+Version: 1.1.6-9971ebba4494012a93c03b40a2c58ec0eb60f50c
+2 Nodes configured, 2 expected votes
+5 Resources configured.
+============
+
+Node primary: standby
+Online: [ secondary ]
+
+ Master/Slave Set: ZimbraDataClone [ZimbraData]
+     Masters: [ secondary ]
+     Stopped: [ ZimbraData:1 ]
+ Resource Group: MySystem
+     ClusterIP  (ocf::heartbeat:IPaddr2):       Started secondary
+ Resource Group: MyZimbra
+     ZimbraFS   (ocf::heartbeat:Filesystem):    Started secondary
+     ZimbraServer       (ocf::btactic:zimbra):  Stopped
+
+\end{verbatim}
+as we can see both ClusterIP and ZimbraFS have already started on secondary node and ZimbraServer is not started in secondary node yet.
+
+
 Finally once we have fixed the hardware we can declare the node online again thanks to:
 \begin{verbatim}
 crm node online
@@ -72,6 +173,17 @@ crm node online
 
 Once again in our setup, thanks to our defined stickiness the cluster won't perform any resource movement.
 
+\section {Starting and stopping resources}
+Sometimes, mainly for debugging purposes, is needed to start or stop cluster resources manually.
+
+E.g. in order to start ZimbraFS resource we will issue:
+\begin{verbatim}
+crm resource start ZimbraFS
+\end{verbatim}
+In order to stop the same resource we will issue:
+\begin{verbatim}
+crm resource stop ZimbraFS
+\end{verbatim}
 
 TODO: Put references between all of these sections to explicify that there are linked one to another.
 

@@ -12,25 +12,21 @@ For more detail on how it's implemented in Virtualbox we can check \textbf{\ref{
 
 \section {Network setup}
 
-\subsection {High Availability Cluster FQDN}
+\subsection {High Availability service}
+\subsubsection {FQDN}
 High Availability server FQDN will be:
 \begin{verbatim}
 public.zimbraha.lan
 \end{verbatim}
 
+\subsubsection {Service link}
+Service link network setup consists of a Class C configuration where the network card address is 192.168.77.203, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 192.168.77.255.
+
+This interface will not be configured in \textit{/etc/network/interfaces} but by pacemaker itself thanks to its cluster definition.
+
+That ip will be the one that email client will connect to our service. Our cluster will make sure that it's only configured in only one server, the active one.
 
 \subsection {Primary server}
-\subsubsection {Service link}
-Primary server's Service link network setup consists of a Class C configuration where the network card address is 192.168.77.201, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 192.168.77.255.
-
-The correspondent configuration code for \textit{/etc/network/interfaces} file is:
-\begin{verbatim}
-auto eth0
-iface eth0 inet static
-        address 192.168.77.201
-        netmask 255.255.255.0
-        broadcast 192.168.77.255
-\end{verbatim}
 
 \subsubsection {Communication link}
 Primary server's Communication link network setup consists of a Class C configuration where the network card address is 10.0.66.201, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 10.0.66.255. As a gateway it will be using the first network address in the network range which it's 10.0.66.1.
@@ -53,17 +49,6 @@ primary.zimbraha.lan
 In order to have Internet connectivity an additional link set as a NAT interface in Virtualbox will be added.
 
 \subsection {Secondary server}
-\subsubsection {Service link}
-Secondary server's Service link network setup consists of a Class C configuration where the network card address is 192.168.77.202, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 192.168.77.255.
-
-The correspondent configuration code for \textit{/etc/network/interfaces} file is:
-\begin{verbatim}
-auto eth1
-iface eth1 inet static
-        address 192.168.77.202
-        netmask 255.255.255.0
-        broadcast 192.168.77.255
-\end{verbatim}
 
 \subsubsection {Communication link}
 Secondary server's Communication link network setup consists of a Class C configuration where the network card address is 10.0.66.202, as per being a Class C its netmask is 255.255.255.0 and thus its broadcast is 10.0.66.255. As a gateway it will be using the first network address in the network range which it's 10.0.66.1.

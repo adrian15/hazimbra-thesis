@@ -6,19 +6,12 @@
 This chapter explains the Zimbra OSE installation.
 
 \section {Operating system checks}
-\subsection {Primary node /etc/hosts}
-\textbf{Only in primary node}
+\subsection {/etc/hosts}
+\textbf{On both nodes}
 We will make sure in \textit{/etc/hosts} file that we have:
 
 \begin{verbatim}
-192.168.77.201 public.zimbraha.lan public
-\end{verbatim}
-\subsection {Secondary node /etc/hosts}
-\textbf{Only in secondary node}
-We will make sure in \textit{/etc/hosts} file that we have:
-
-\begin{verbatim}
-192.168.77.202 public.zimbraha.lan public
+192.168.77.203 public.zimbraha.lan public
 \end{verbatim}
 \subsection {/etc/hostname}
 \textbf{On primary node} we will make sure that \textit{/etc/hostname} contains:
@@ -76,7 +69,14 @@ _GA_5737.UBUNTU12_64\
 .20130524120036.tgz
 \end{verbatim}
 
-\section {Complete Install script on Primary}
+\section {\label{sec:complete-install-script-on-primary}Complete Install script on Primary}
+\subsection {Service link manual configuration}
+We need to configure service link manually with:
+\begin{verbatim}
+ifconfig eth0 192.168.77.203 \
+netmask 255.255.255.0
+\end{verbatim}
+
 \subsection {Installation start}
 \textbf{Only on primary node} we will change directory into Zimbra installation directory and run installation script:
 
@@ -125,12 +125,14 @@ Change hostname [Yes]
 \end{verbatim}
 we will change it (\textit{Yes}) so that it says: \textit{public.zimbraha.lan}.
 
+As DNS isn't setup the same question will be asked. We will answer that \textit{No} we don't want to re-enter hostname.
+
 In a production environment we will need to make sure an A DNS field so that public.zimbraha.lan resolves to its public ip or internal ip.
 
 \subsection {Change domain name}
 When asked:
 \begin{verbatim}
-DNS ERROR resolving MX for primary.zimbraha.lan
+DNS ERROR resolving MX for public.zimbraha.lan
 It is suggested that the domain name have an MX record configured in DNS
 Change domain name? [Yes] 
 \end{verbatim}
@@ -282,12 +284,22 @@ Installation ends with this message where we can just press Return.
 Configuration complete - press return to exit
 \end{verbatim}
 
-\section {Dummy installation on Secondary}
-\textbf{Only on secondary node} we will change directory into Zimbra installation directory and run installation script with software only installation switch:
+\subsection {\label{service-link-disable}Service link disable}
+In order to perform dummy installation on Secondary we need service link to be configured manually on secondary node. That conflicts with service link being configured on primary node. We will also need to stop Zimbra services.
 
+We are going to disable service link on primary with:
 \begin{verbatim}
-./install.sh -s
+service zimbra stop
+ifconfig eth0 down
 \end{verbatim}
-. This will perform a dummy installation where only system files are copied but not Zimbra files themselves. We don't need the full installation on secondary node because the main Zimbra data will be shared from primary node.
 
-Installation steps are the same ones as the described in subsection {\ref{subsec:zimbra-packages-install} Zimbra packages install}.
+\section {Dummy installation on Secondary}
+We will perform the same exact installation steps as the ones described in 
+\textbf{\ref{sec:complete-install-script-on-primary} Complete Install script on Primary} even the \textbf{\ref{service-link-disable} Service link disable} subsection which we need because the Cluster will be the only one to configure the service link.
+
+Now we are going to delete our unused Zimbra installation \textbf{only on secondary node} with:
+\begin{verbatim}
+rm -rf /opt/zimbra
+\end{verbatim}
+
+As this is a dummy installation we don't need to write down Zimbra Administration password.

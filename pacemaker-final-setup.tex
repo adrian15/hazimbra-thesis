@@ -6,7 +6,7 @@
 This chapter explains how to setup Pacemaker to acomplish High Availability finally.
 
 \section {Pacemaker Setup explained}
-As explained in \textit{section \ref{sec:about-pacemaker} About Pacemaker} Pacemaker is High Availability resource manager, here we will explain how our setup pretends to manage our two servers resources.
+As explained in \textit{section \ref{sec:about-pacemaker} About Pacemaker} Pacemaker is High Availability resource manager, here we will explain how our setup pretends to manage our two servers resources. These instructions should only be performed on \textbf{primary} node.
 
 These are the main settings we define in our configuration:
 \begin{itemize}
@@ -20,48 +20,35 @@ These are the main settings we define in our configuration:
 
 TODO: Check if we define stickiness somewhere else and make a reference here.
 
-TODO: Check if we need an order for normal ip ifconfig or whatever it's called.
-
 TODO: Add an explanation on stonith on a new Improvements chapter and make here a reference to it.
 
 
-
-The configuration file which we will be using it's written only once into:
-\begin{verbatim}
-/tmp/zimbrapacemaker.config
-\end{verbatim}
-. In order to apply the configuration we will run:
-\begin{verbatim}
-crm < /tmp/zimbrapacemaker.config
-\end{verbatim}
-.
-
-\textit{/tmp/zimbrapacemaker.config} file contents are:
+We make sure that \textit{/tmp/zimbrapacemaker.config} file contents are:
 \begin{verbatim}
 configure
 erase
-node zhatest-01.domain.com
-node zhatest-02.domain.com
+node primary
+node secondary
 # Activate failover
 property no-quorum-policy=ignore
 # Disable stonith
 property stonith-enabled=false
-# Public ip fail over check
-primitive ClusterIP ocf:heartbeat:IPaddr2 \
-params nic=eth0 ip=ip-fail-over-PUBLICA \
-cidr_netmask=32 \
-broadcast=ip-fail-over-PUBLICA \
-op monitor interval=30s
 # Resource stickiness
 rsc_defaults resource-stickiness=100
+# Public ip fail over check
+primitive ClusterIP ocf:heartbeat:IPaddr2 \
+params nic=eth0 ip=192.168.77.203 \
+cidr_netmask=24 \
+broadcast=192.168.77.255 \
+op monitor interval=30s
 # Configure zimbra resource
 primitive ZimbraServer ocf:btactic:zimbra op \
 monitor interval=2min timeout="40s" \
 op start interval="0" timeout="360s" \
 op stop interval="0" timeout="360s"
-# Prefered location: zhatest-01
-location prefer-zhatest-01 \
-ZimbraServer 50: zhatest-01
+# Prefered location: primary node
+location prefer-primary-node \
+ZimbraServer 50: primary
 # Define DRBD ZimbraData
 primitive ZimbraData ocf:linbit:drbd params \
 drbd_resource=zimbradata op monitor \
@@ -81,26 +68,31 @@ params device="/dev/drbd/by-res/zimbradata" \
 directory="/opt" fstype="ext4" \
 op start interval="0" timeout="60s" \
 op stop interval="0" timeout="60s"
-group MySystem ClusterIP
 group MyZimbra ZimbraFS ZimbraServer
 
 
 # Everything in the same host
 colocation everything-together \
 inf: MyZimbra \
-ZimbraDataClone:Master MySystem
+ZimbraDataClone:Master ClusterIP
 
 # Everything ordered
 order everything-ordered \
 inf: \
-MySystem \
+ClusterIP \
 ZimbraDataClone:promote MyZimbra
 commit
 \end{verbatim}
 
-Pacemaker configuration is not trivial. The main document from which the configuration file was adapted and written was Clusters from Scrach (\cite{ClustersFromScratch}).
+In order to apply the configuration we will run:
+\begin{verbatim}
+crm < /tmp/zimbrapacemaker.config
+\end{verbatim}
+.
+
+
+
+Pacemaker configuration is not trivial. The main document from which the configuration file was adapted and written was Clusters from Scratch (\cite{ClustersFromScratch}).
 
 TODO: Check if we need an order for normal ip ifconfig or whatever it's called.
-
-TODO: cidr\_netmask=32 ; Make sure it's 24 or whatever the default netmask is.
 

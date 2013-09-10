@@ -39,10 +39,15 @@ Zimbra OSE High Availability is a project which attempts to attain high availabi
 
 Prior documentation about Zimbra High Availability was written with Zimbra 6 version in mind which it's devoted to work (among others) in Ubuntu 8.04 64 bit. Those instructions were based on Gnu/Linux High Availability software (heartbeat) which no longer is used for High Availability purposes nowadays.
 
-Thesis' author wrote a howto in order to be able to work with Zimbra 7 and Ubuntu 10.04 64 bit in August 2012 (\cite{BtacticZimbraHAHowto}). Finally on September 13th 2012 Vmware announced Zimbra 8 which could be run in Ubuntu 12.04 (\cite{VmwareZimbra8Announce}).
+To the best of the author's knowledge there's no updated documentation on how to setup this system.
+
+On September 13th 2012 Vmware announced Zimbra 8 which could be run in Ubuntu 12.04 (\cite{VmwareZimbra8Announce}).
 
 \section {Main thesis topic}
-The goal of this Master Thesis is to show a working implementation of the current state of the art technologies on High Availability in Gnu/Linux applied to the Vmware Zimbra case.
+\begin{enumerate}
+  \item To show the current of state of the art on High Availability in Gnu/Linux applied to the Vmware Zimbra case.
+  \item Test the setup of a Zimbra 8 High Availability System in Ubuntu 12.04 and write a detailed report of its detailed procedure.
+\end{enumerate} 
 
 \section {Chosen technologies and solution}
 Initially, we have decided to use the same High Availability technologies as the forementioned howto. Some of these technologies are: Corosync, Distributed Replicated Block Device (DRBD), OCF , and Pacemaker.

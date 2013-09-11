@@ -37,28 +37,30 @@ Zimbra OSE High Availability is a project which attempts to attain high availabi
 
 \section{History}
 
-Prior documentation about Zimbra High Availability was written with Zimbra 6 version in mind which it's devoted to work (among others) in Ubuntu 8.04 64 bit. Those instructions were based on Gnu/Linux High Availability software (heartbeat) which no longer is used for High Availability purposes nowadays.
+Prior documentation about Zimbra High Availability was written with Zimbra 6 version in mind which it's devoted to work (among others) in Ubuntu 8.04 64 bit. Those instructions were based on Gnu/Linux High Availability software (heartbeat) which is no longer used for High Availability purposes nowadays.
 
 To the best of the author's knowledge there's no updated documentation on how to setup this system.
 
 On September 13th 2012 Vmware announced Zimbra 8 which could be run in Ubuntu 12.04 (\cite{VmwareZimbra8Announce}).
 
 \section {Main thesis topic}
-\begin{enumerate}
-  \item To show the current of state of the art on High Availability in Gnu/Linux applied to the Vmware Zimbra case.
-  \item Test the setup of a Zimbra 8 High Availability System in Ubuntu 12.04 and write a detailed report of its detailed procedure.
-\end{enumerate} 
+The main thesis of this topic is: \\
+\textit{Design and test the setup of a Zimbra 8 High Availability System in Ubuntu 12.04 and write a detailed report of this setup procedure.}
 
 \section {Chosen technologies and solution}
-Initially, we have decided to use the same High Availability technologies as the forementioned howto. Some of these technologies are: Corosync, Distributed Replicated Block Device (DRBD), OCF , and Pacemaker.
+We have decided to use the following proved open source high availability technologies: Corosync, Distributed Replicated Block Device (DRBD), OCF , and Pacemaker.
 
-Corosync is a software meant to synchronise configuration files. Synchronise configuration files in Cluster is essential because all the cluster members have to have the same information and knowledge of the other cluster members. DRBD let us share a common storage between hosts as if a network RAID-1 hard disk it was. Finally in order to setup and manage the whole cluster we will use Pacemaker cluster which uses OCF script as Cluster control scripts.
+TODO: Justificarlo con lo de la historia. Haciendo referencia a la secci\'on de Historia. Well known, most used.
+
+Corosync is a software meant to synchronise configuration files. Synchronise configuration files in a cluster is essential because all the cluster members have to share the same information and knowledge of the other cluster members. DRBD allows us to share a common storage between hosts as if a network RAID-1 hard disk it was. Finally, in order to setup and manage the whole cluster we will use Pacemaker cluster which uses OCF scripts as Cluster control scripts.
 
 A set of virtual machines will be setup to check that even with Zimbra 8 and Ubuntu 12.04 all the steps in the original instructions can be reproduced. These steps are: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
 
 \section {Structure of the document}
 
-In chapters: \textit{\ref{chap:ha-schema} - High availability schema},
+Chapter 2 explains the high availability system that will be tested through the thesis.
+
+TODO: Chapters 3 to 12 explain the detailed setup procedure of each element that constitutes the final system: \textit{\ref{chap:ha-schema} - High availability schema},
 \textit{\ref{chap:operating-system-installation} - Operating System installation},
 \textit{\ref{chap:network-setup} - Network setup},
 \textit{\ref{chap:zimbra-installation} - Zimbra installation},

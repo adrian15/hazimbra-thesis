@@ -14,7 +14,7 @@ ClusterOVHFailover, ClusterHostRoute and ClusterDefaultRoute. These scripts make
 ClusterOVHFailover makes sure an OVH ip-fail-over is failed over from one machine to the another one. This way Zimbra Server is being served by the correct host.
 ClusterHostRoute and ClusterDefaultRoute are meant to help to setup OVH networking for ip-fail-over which it's not covered by standard network setup found in  default Pacemaker package.
 
-These scripts can be found inside BtacticOCF tar.gz file (\cite{BtacticOCF}) which can be downloaded from BtacticOCF  tar.gz file (\cite{BtacticOrg}). There were originally aimed as a complement for bTactic HA howto (\cite{BtacticZimbraHAHowto}).
+These scripts can be found inside BtacticOCF tar.gz file (\cite{BtacticOCF}) which can be downloaded from BtacticOCF  tar.gz file (\cite{BtacticOrg}).
 
 \section {Fencing}
 Fencing is the process of locking resources away from a node whose status is uncertain (\cite{LinuxHAFencing}). The default method of fencing in Pacemaker is using stonith. Stonith is a technique for NodeFencing, that means that the node (either primary or secondary server in our example) that it's supposed to have failed is \textit{shot in head} (\cite{LinuxHAStonith}). That makes sure that the node is actually dead.

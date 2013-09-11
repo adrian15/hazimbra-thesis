@@ -1,0 +1,23 @@
+% Zimbra and DRBD Startup Script disabling
+
+
+\chapter{Zimbra and DRBD startup scripts disabling}
+\label{chap:zimbra-drbd-startup-script-disabling}
+This chapter explains how to disable both Zimbra and DRBD startup scripts.
+
+\section {Introduction}
+We need to disable both default Zimbra and DRBD startup scripts because Pacemaker will be the responsible for starting and stopping both Zimbra and DRBD thanks to OCF scripts.
+
+The explanation is that it is not safe to start Zimbra at boot because Zimbra needs its filesystem to be mounted. Filesystem needs DRBD to be loaded so that ZimbraData partition exists. All of this requirement are handle by pacemaker which it's been setup for the task. The same reasoning applies to DRBD.
+
+\section {Disable Zimbra startup scripts}
+We just have to run \textbf{on both nodes}:
+\begin{verbatim}
+update-rc.d -f zimbra remove
+\end{verbatim}
+
+\section {Disable DRBD startup scripts}
+We just have to run \textbf{on both nodes}:
+\begin{verbatim}
+update-rc.d -f drbd remove
+\end{verbatim}

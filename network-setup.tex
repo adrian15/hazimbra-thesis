@@ -8,6 +8,8 @@ This chapter explains the network setup.
 \section {Network schema}
 We can just check the High Availability main schema (figure \ref{fig:main-schema}) where network has been already described. There are three networks. The service link is the main network interface for serving content to the final users. The communication link, which is used for the cluster management and syncronisation is done via a crossover cable. Finally NAT link gives the machines access to Internet.
 
+One of the reason why there are two links is because we use communication link for drbd synchronisation and that avoids DRBD traffic to both service traffic. The other reason is because cluster communication is not interfered by service traffic and that avoids false nodes being offline detections.
+
 For more detail on how it's implemented in Virtualbox we can check \textbf{\ref{sec:virtualbox-implementation} Virtualbox implementation} chapter.
 
 \section {Network setup}

@@ -10,6 +10,8 @@ TODO: The described. Find a better rewording.
 \section {Introduction}
 Most of these examples have been extracted from Clusters From Scratch (\cite{ClustersFromScratch}) document . At Zimbra Forums Zimbra on Pacemaker + DRBD howto thread (\cite{ZForumsTaer}) we can find a Zimbra High Availability Howto (\cite{TaerHowtoHAZimbra8}) where we can find more every-day uses of Pacemaker examples.
 
+The reason why we need these examples is that instead of managing a single server installation Zimbra server system now we need to manage a high availability system initially setup by Pacemaker. Some of the most useful management tasks will be described.
+
 \section {DRBD Split Brain recovery}
 
 Split brain is a situation where, due to temporary failure of all network links between cluster nodes, and possibly due to intervention by a cluster management software or human error, both nodes switched to the primary role while disconnected. This is a potentially harmful state, as it implies that modifications to the data might have been made on either node, without having been replicated to the peer. Thus, it is likely in this situation that two diverging sets of data have been created, which cannot be trivially merged (\cite{DrbdSplitBrain}).

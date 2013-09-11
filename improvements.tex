@@ -1,13 +1,41 @@
-% Improvements
+% Conclusions and future work
 
 
-\chapter{Improvements}
-\label{chap:improvements}
-This chapter describes some of the improvements that can be applied to the described High Availability System. These improvements can be used in further research.
+\chapter{Conclusions and future work}
+\label{chap:conclusions-and-future-work}
+This chapter draws some conclusions and describes some of the improvements that can be applied to the described High Availability System. These improvements can be used in further research.
 
 TODO: The described. Find a better rewording.
 
-\section {OVH Datacentre network handling}
+\section {Conclusions}
+
+TODO: Objetive
+TODO: Subjective
+
+In 
+
+{prelude}
+{problem-description}
+{ha-schema}
+
+we have seen that Zimbra OSE could be improved by the means of a High Availability system.
+
+In 
+
+{operating-system-installation}
+{network-setup}
+{zimbra-installation}
+{drbd-setup}
+{zimbra-drbd-startup-script-disabling}
+{corosync-setup}
+{pacemaker-setup}
+{ha-system-management}
+
+we have seen a practical example on how to achieve this High Availability system.
+
+\section {Future work}
+
+\subsection {OVH Datacentre network handling}
 There have been some efforts from the bTactic team to handle OVH Datacentre networking thanks to three OCF scripts named: 
 ClusterOVHFailover, ClusterHostRoute and ClusterDefaultRoute. These scripts make sense in setup that doesn't use Virtual Rack + RIPE but just normal servers connected via Internet only.
 
@@ -16,7 +44,7 @@ ClusterHostRoute and ClusterDefaultRoute are meant to help to setup OVH networki
 
 These scripts can be found inside BtacticOCF tar.gz file (\cite{BtacticOCF}) which can be downloaded from BtacticOCF  tar.gz file (\cite{BtacticOrg}).
 
-\section {Fencing}
+\subsection {Fencing}
 Fencing is the process of locking resources away from a node whose status is uncertain (\cite{LinuxHAFencing}). The default method of fencing in Pacemaker is using stonith. Stonith is a technique for NodeFencing, that means that the node (either primary or secondary server in our example) that it's supposed to have failed is \textit{shot in head} (\cite{LinuxHAStonith}). That makes sure that the node is actually dead.
 
 In our described example we have disabled stonith. We can improve it by enabling it and using one of the available methods.
@@ -25,7 +53,7 @@ Once again bTactic team has developed an stonith script (or fence agent as known
 
 This script is available as a Red Hat's fence-agents package since fence-agents package 4.0.2 release version (\cite{LinuxClusterML201307}).
 
-\section {Mysql HA}
+\subsection {Mysql HA}
 One of the Zimbra components is a Mysql database. This Mysql database can be excluded from DRBD syncing and can be setup as an active / active cluster.
 
 This setup will offer a better handling of node failing because you would only loose last mysql queries. In the DRBD case you loose all the file changes that have not been stored into the files that compose actual Mysql database.

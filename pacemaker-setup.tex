@@ -1,0 +1,172 @@
+% Corosync and Pacemaker installation
+
+\chapter {Pacemaker setup}
+\label{chap:pacemaker-setup}
+
+This chapter explains the Pacemaker installation and setup.
+
+\section {\label{sec:about-pacemaker}About Pacemaker}
+
+Pacemaker is an Open Source, High Availability resource manager suitable for both small and large clusters (\cite{PacemakerWebpage}) which features:
+\begin{itemize}
+  \item Detection and recovery of machine and application-level failures
+  \item Supports practically any redundancy configuration
+  \item Supports both quorate and resource-driven clusters
+  \item Configurable strategies for dealing with quorum loss (when multiple machines fail)
+  \item Supports application startup/shutdown ordering, regardless machine(s) the applications are on
+  \item Supports applications that must/must-not run on the same machine
+  \item Supports applications which need to be active on multiple machines
+  \item Supports applications with multiple modes (eg. master/slave)
+  \item Provably correct response to any failure or cluster state. The cluster's response to any stimuli can be tested offline before the condition exists
+\end{itemize}
+
+Pacemaker let us manage the high availability cluster as a single system from anyone of the cluster nodes. In order to interact with each of the nodes it needs Corosync communication capabilities.
+
+
+\section {Pacemaker installation}
+\textbf{In both nodes} we just need to install Pacemaker packages for Ubuntu 12.04.
+
+We need to issue this command:
+\begin{verbatim}
+apt-get install pacemaker
+\end{verbatim}
+
+We can safely ignore this warning:
+\begin{verbatim}
+Warning: The home dir /var/lib/heartbeat
+ you specified already exists.
+Adding system user `hacluster' (UID 105) ...
+Adding new user `hacluster' (UID 105) with group `haclient' ...
+The home directory `/var/lib/heartbeat' already exists.
+ Not copying from `/etc/skel'.
+adduser: Warning: The home directory `/var/lib/heartbeat'
+ does not belong to the user you are currently creating.
+Processing triggers for libc-bin ...
+ldconfig deferred processing now taking place
+\end{verbatim}
+% Initial Pacemaker Setup
+
+\section {About OCF Resource agents}
+A resource agent is a standardized interface for a cluster resource. In translates a standard set of operations into steps specific to the resource or application, and interprets their results as success or failure(\cite{ResourceAgentsWiki}). An OCF resource agent is based on the Open Clustering Framework Resource Agent API specifications(\cite{OCFResourceAgentsWiki}). 
+
+\section {bTactic Zimbra OCF installation}
+\textbf{In both nodes} we need to obtain the Zimbra OCF script. Zimbra OCF script is found inside BtacticOCF tar.gz file (\cite{BtacticOCF}) which can be downloaded from BtacticOCF  tar.gz file (\cite{BtacticOrg}).
+
+From the tar.gz we will use the zimbra script which we will copy into:
+\begin{verbatim}
+/usr/lib/ocf/resource.d/btactic
+\end{verbatim}
+
+We will use a temporary directory in order to use it:
+\begin{verbatim}
+mkdir /tmp/temp
+cd /tmp/temp
+\end{verbatim}
+We download and extract it:
+\begin{verbatim}
+wget "http://www.btactic.org/btactic_ocf_0.0.2.tar.gz"
+tar xzf btactic_ocf_0.0.2.tar.gz
+\end{verbatim}
+Make the btactic resource directory and copy zimbra file in there:
+\begin{verbatim}
+mkdir --parents /usr/lib/ocf/resource.d/btactic
+cp zimbra /usr/lib/ocf/resource.d/btactic
+\end{verbatim}
+We finally make sure to give the script executable permissions:
+\begin{verbatim}
+chmod +x /usr/lib/ocf/resource.d/btactic/*
+\end{verbatim}
+
+% Pacemaker Final Setup
+
+\section {Pacemaker Setup explained}
+As explained in \textit{section \ref{sec:about-pacemaker} About Pacemaker} Pacemaker is High Availability resource manager, here we will explain how our setup pretends to manage our two servers resources. These instructions should only be performed on \textbf{primary} node.
+
+These are the main settings we define in our configuration:
+\begin{itemize}
+  \item Setup deletes prior configuration.
+  \item DRBD, Filesystem mount and Zimbra Server are setup to work in the same server as they work as in a team.
+  \item System stickiness is changed so that Zimbra Server resource is not moved from where it's running to avoid Zimbra innecessary downtimes.
+  \item System are forced to be started in the right order. The right order is: DRBD, Filesystem mount, and Zimbra Server.
+  \item We disable stonith in order to simplify the setup.
+  \item Primary server will be the prefered server where resources need to be run.
+\end{itemize}
+
+TODO: Check if we define stickiness somewhere else and make a reference here.
+
+TODO: Add an explanation on stonith on a new Improvements chapter and make here a reference to it.
+
+
+We make sure that \textit{/tmp/zimbrapacemaker.config} file contents are:
+\begin{verbatim}
+configure
+erase
+node primary
+node secondary
+# Activate failover
+property no-quorum-policy=ignore
+# Disable stonith
+property stonith-enabled=false
+# Resource stickiness
+rsc_defaults resource-stickiness=100
+# Public ip fail over check
+primitive ClusterIP ocf:heartbeat:IPaddr2 \
+params nic=eth0 ip=192.168.77.203 \
+cidr_netmask=24 \
+broadcast=192.168.77.255 \
+op monitor interval=30s
+# Configure zimbra resource
+primitive ZimbraServer ocf:btactic:zimbra op \
+monitor interval=2min timeout="40s" \
+op start interval="0" timeout="360s" \
+op stop interval="0" timeout="360s"
+# Prefered location: primary node
+location prefer-primary-node \
+ZimbraServer 50: primary
+# Define DRBD ZimbraData
+primitive ZimbraData ocf:linbit:drbd params \
+drbd_resource=zimbradata op monitor \
+role=Master interval=60s op monitor \
+role=Slave interval=50s \
+op start role=Master interval="0" timeout="240" \
+op start role=Slave interval="0" timeout="240" \
+op stop role=Master interval="0" timeout="100" \
+op stop role=Slave interval="0" timeout="100"
+# Define DRBD ZimbraData Clone
+ms ZimbraDataClone ZimbraData meta \
+master-max=1 master-node-max=1 \
+clone-max=2 clone-node-max=1 notify=true
+# Define ZimbraFS so that zimbra can use it
+primitive ZimbraFS ocf:heartbeat:Filesystem \
+params device="/dev/drbd/by-res/zimbradata" \
+directory="/opt" fstype="ext4" \
+op start interval="0" timeout="60s" \
+op stop interval="0" timeout="60s"
+group MyZimbra ZimbraFS ZimbraServer
+
+
+# Everything in the same host
+colocation everything-together \
+inf: MyZimbra \
+ZimbraDataClone:Master ClusterIP
+
+# Everything ordered
+order everything-ordered \
+inf: \
+ClusterIP \
+ZimbraDataClone:promote MyZimbra
+commit
+\end{verbatim}
+
+In order to apply the configuration we will run:
+\begin{verbatim}
+crm < /tmp/zimbrapacemaker.config
+\end{verbatim}
+.
+
+
+
+Pacemaker configuration is not trivial. The main document from which the configuration file was adapted and written was Clusters from Scratch (\cite{ClustersFromScratch}).
+
+TODO: Check if we need an order for normal ip ifconfig or whatever it's called.
+

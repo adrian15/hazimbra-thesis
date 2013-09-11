@@ -12,7 +12,7 @@
 % Choose only one of the following document classes:
 %
 % for a 12 Point UW PhD Thesis without Margin Check
-\documentclass[12pt,twoside]{withesis}
+\documentclass[a4paper,12pt,twoside]{book}
 %
 % for a 10 Point UW PhD Thesis with Margin Check
 %\documentclass[10pt,margincheck]{withesis}
@@ -76,7 +76,7 @@
 %
 %\pagestyle{thesis} causes the header and footers to be the correct format
 %
-\pagestyle{thesis}
+%\pagestyle{thesis}
 %
 %
 %  The page margins can be marked with a post-script box using the
@@ -98,8 +98,8 @@
 % The suppress writing the auxiliary information which appears in the
 % list of tables or list of figures.
 %
-\noappendixtables                % Don't have appendix tables
-\noappendixfigures               % Don't have appendix figures
+%\noappendixtables                % Don't have appendix tables
+%\noappendixfigures               % Don't have appendix figures
 
 
 %=======================================================================
@@ -114,7 +114,7 @@
 % unssrt, alpha, abbrv
 \bibliographystyle{plain}
 
-
+\include{udl-style}
 \include{prelude}                % Title page, abstract, table of contents, etc
 \include{problem-description}                  % Chapter 1
 \include{ha-schema}
@@ -138,12 +138,12 @@
 \include{biblio}
 %\bibliography{refs}              % Make the bibliography
 
-\begin{appendices}               % Start of the Appendix Chapters.  If there is only
-                                 % one Appendix Chapter, then use \begin{appendix}
+\begin{appendix}
 %\include{code}                   % Including computer code listings
 %\include{bibref}                 % a BibTeX reference
 %\include{math}                   % Complex Equations from the UW Math Department
 %\include{acro}                   % A discussion on generating PDF files.
-\end{appendices}                 % End of the Appendix Chapters.  ibid on \end{appendix}
+\end{appendix}
+
 %\include{vita}                  % Optional Vita, use \begin{vita} vita text \end{vita}
 \end{document}

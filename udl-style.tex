@@ -1,0 +1,30 @@
+\newcommand{\degree}[1]{\gdef\@degree{#1}}
+\newcommand{\masterthesis}{\gdef\@doctype{A Master Thesis}}
+\newcommand{\department}[1]{\gdef\@department{(#1)}}
+
+\def\advisortitle#1{\gdef\@advisortitle{#1}}
+\def\advisorname#1{\gdef\@advisorname{#1}}
+\gdef\@advisortitle{Professor}
+\gdef\@advisorname{Default Professor}
+
+%=============================================================================
+% COPYRIGHTPAGE
+%=============================================================================
+% The copyright must do the following:
+% - start a new page with no number
+% - place the copyright text centered at the bottom.
+%=============================================================================
+\def\copyrightpage{
+  \newpage
+  \thispagestyle{empty}    % No page number
+  \addtocounter{page}{-1}
+  \chapter*{}            % Required for \vfill to work
+  \begin{center}
+   \vfill
+   \copyright\ Copyright by \actualauthor\ \date\\
+   All Rights Reserved
+  \end{center}}
+
+\newcommand{\twoskip}{1.5}
+\newcommand{\doublespace}
+  {\renewcommand{\baselinestretch}{\twoskip}\Large\normalsize}

@@ -19,6 +19,8 @@ The software is designed to operate on UDP/IP and InfiniBand networks natively.
 
 We can find more information about Corosync at its Wikipedia article (\cite{WikipediaCorosync}) and at its webpage (\cite{CorosyncWebpage}).
 
+Corosync enables a group communication system so that Pacemaker can talk to all the cluster nodes without having to implement communication capabilities.
+
 \section {\label{sec:about-pacemaker}About Pacemaker}
 
 Pacemaker is an Open Source, High Availability resource manager suitable for both small and large clusters (\cite{PacemakerWebpage}) which features:
@@ -33,6 +35,8 @@ Pacemaker is an Open Source, High Availability resource manager suitable for bot
   \item Supports applications with multiple modes (eg. master/slave)
   \item Provably correct response to any failure or cluster state. The cluster's response to any stimuli can be tested offline before the condition exists
 \end{itemize}
+
+Pacemaker let us manage the high availability cluster as a single system from anyone of the cluster nodes. In order to interact with each of the nodes it needs Corosync communication capabilities.
 
 \section {Corosync installation}
 \textbf{In both nodes} we just need to install Corosync packages for Ubuntu 12.04.

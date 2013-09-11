@@ -1,9 +1,35 @@
-% COROSYNC Setup
+% Corosync s
 
 
-\chapter{Corosync Setup}
+\chapter{Corosync setup}
 \label{chap:corosync-setup}
-This chapter explains the Corosync Setup.
+This chapter explains the Corosync setup.
+
+\section {About Corosync}
+The Corosync Cluster Engine is a group communication system for implementing high availability within applications. Among its features we can find:
+\begin{itemize}
+  \item Create replicated state magchines thanks to a closed process group communication model
+  \item Restart application process if it fails thanks to simple availability manager
+  \item A configuration and statistics in-memory database
+  \item A quorum system that notifies applications when quorum is achieved or lost.
+\end{itemize}
+
+
+The software is designed to operate on UDP/IP and InfiniBand networks natively.
+
+We can find more information about Corosync at its Wikipedia article (\cite{WikipediaCorosync}) and at its webpage (\cite{CorosyncWebpage}).
+
+Corosync enables a group communication system so that Pacemaker can talk to all the cluster nodes without having to implement communication capabilities.
+
+\section {Corosync installation}
+\textbf{In both nodes} we just need to install Corosync packages for Ubuntu 12.04.
+
+We need to issue this command:
+\begin{verbatim}
+apt-get install corosync
+\end{verbatim}
+
+% COROSYNC Setup
 
 \section {Corosync.conf}
 

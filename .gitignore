@@ -6,3 +6,10 @@
 *.log
 *.pdf
 
+*.bbl
+*.blg
+*.lof
+*.lot
+*.toc
+
+

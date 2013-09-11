@@ -1,4 +1,4 @@
-% Corosync s
+% Corosync setup
 
 
 \chapter{Corosync setup}
@@ -8,7 +8,7 @@ This chapter explains the Corosync setup.
 \section {About Corosync}
 The Corosync Cluster Engine is a group communication system for implementing high availability within applications. Among its features we can find:
 \begin{itemize}
-  \item Create replicated state magchines thanks to a closed process group communication model
+  \item Create replicated state machines thanks to a closed process group communication model
   \item Restart application process if it fails thanks to simple availability manager
   \item A configuration and statistics in-memory database
   \item A quorum system that notifies applications when quorum is achieved or lost.
@@ -17,7 +17,7 @@ The Corosync Cluster Engine is a group communication system for implementing hig
 
 The software is designed to operate on UDP/IP and InfiniBand networks natively.
 
-We can find more information about Corosync at its Wikipedia article (\cite{WikipediaCorosync}) and at its webpage (\cite{CorosyncWebpage}).
+We can find more information about Corosync at its Wikipedia article (\cite{WikipediaCorosync}) and at its web page (\cite{CorosyncWebpage}).
 
 Corosync enables a group communication system so that Pacemaker can talk to all the cluster nodes without having to implement communication capabilities.
 
@@ -270,7 +270,7 @@ exit 0
 \end{verbatim}
 line.
 
-TODO: That makes run corosync cfgtool at boot to inforce... WHAT?
+TODO: That makes run corosync cfgtool at boot to enforce... WHAT?
 
 \section {Corosync startup enabling}
 In \textbf{both nodes} in order to enable Corosync at boot we need to edit:

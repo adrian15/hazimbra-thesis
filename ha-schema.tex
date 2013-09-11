@@ -8,7 +8,7 @@ This chapter explains the High Availability system that will be tested through t
 \section {Main schema}
 There are two servers which we will be named as the primary one and the secondary one. There are two servers which we will be named as the primary one and the secondary one. They are linked by means of two connections: The service and the communication link.
 
-The service link is the main network interface which is connected via a normal switch. It will serve content to the final users. The communication link, which is used for the cluster management and syncronisation is done via a crossover cable.
+The service link is the main network interface which is connected via a normal switch. It will serve content to the final users. The communication link, which is used for the cluster management and synchronization is done via a crossover cable.
 
 We can see the main schema, where we have added two final clients at figure \ref{fig:main-schema}.
 
@@ -39,7 +39,7 @@ The primary server specifications are as follow:
 
 \section {\label{sec:virtualbox-implementation}Virtualbox implementation}
 \subsection {Introduction}
-Although in production environments High Availability systems are implemented in Physical servers or highly optimised virtualised servers, we are going to use Oracle VM Virtualbox software to emulate the described system. This section summarizes how to create both virtual machines and link them.
+Although in production environments High Availability systems are implemented in Physical servers or highly optimized virtualized servers, we are going to use Oracle VM Virtualbox software to emulate the described system. This section summarizes how to create both virtual machines and link them.
 
 \subsection {\label{subsec:primary-virtual-machine-creation}Primary Virtual Machine creation}
 We click on \textit{Machine} menu and select \textit{New} option. The Create Virtual Machine wizard will appear.
@@ -61,7 +61,7 @@ We leave the default File location and select hard disk size as 110 GB which is 
 \subsection {\label{subsec:service-link-primary}Service link network on Primary Virtual Machine}
 We select \textit{PrimaryZimbraHA} virtual machine and click on \textit{Machine} menu and then in \textit{Settings} option. We will make sure we are in \textit{Network} section.
 
-We will use default \textit{Adapter 1} for service link. We are going to summarise its setup:
+We will use default \textit{Adapter 1} for service link. We are going to summarize its setup:
 \begin{itemize}
   \item Attached to: \textit{Internal Network}
   \item Name: ZimbraHAService
@@ -87,7 +87,7 @@ Finally we click on \textit{Clone} button so that cloning is performed.
 \subsection {Service link network on Secondary Virtual Machine}
 As we did in subsection \textbf{\ref{subsec:service-link-primary} Service link network on Primary Virtual Machine} we select \textit{SecondaryZimbraHA} virtual machine and click on \textit{Machine} menu and then in \textit{Settings} option. We will make sure we are in \textit{Network} section.
 
-We will use default \textit{Adapter 1} for service link. We are going to summarise its setup:
+We will use default \textit{Adapter 1} for service link. We are going to summarize its setup:
 \begin{itemize}
   \item Attached to: \textit{Internal Network}
   \item Name: \textit{ZimbraHAService}

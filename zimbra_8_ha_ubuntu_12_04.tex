@@ -54,69 +54,13 @@
 \usepackage{datetime}
 \renewcommand{\ttdefault}{cmtt}
 
-%========================================================================
-%  Draft Control Commands:
-%========================================================================
-%
-% \psdraft causes the \psfig or \epsfig commands to draw a box and label
-% the box with the postscript file name instead of reading in the full
-% postscript figure.  This can save time and toner when printing drafts.
-%
-%\psdraft
-%
-%
-% \psfull causes the inclusion of the postscript figures.
-%\psfull
-%
-%
-%\pagestyle{thesisdraft} causes the footer text to become:
-% DRAFT: Do Not Distribute        <time><Date>        <input file name>
-%
-%\pagestyle{thesisdraft}
-%
-%\pagestyle{thesis} causes the header and footers to be the correct format
-%
-%\pagestyle{thesis}
-%
-%
-%  The page margins can be marked with a post-script box using the
-%  \draftmargins command.  This command uses dvips's end-of-page hook
-%  This is only visible in the *.ps file (NOT the *.dvi file)!
-%
-%\draftmargins
-%
-%
-%  The word ``DRAFT'' can be diagonally printed across the page using
-%  the \draftscreen command.  This command uses dvip's beginning-of-page
-%  hook.  This is only visible in the *.ps file (NOT the *.dvi file)!
-%
-%\draftscreen
-
-
-%=======================================================================
-% Remove the following lines if appendix tables or figures are present.
-% The suppress writing the auxiliary information which appears in the
-% list of tables or list of figures.
-%
-%\noappendixtables                % Don't have appendix tables
-%\noappendixfigures               % Don't have appendix figures
-
-
-%=======================================================================
-% End of Preamble, start of document
-%
-
-
 \begin{document}
 
-% Choose your bibliography style
-% plain is the basic style, others include ieeetr, siam, asm, etc
-% unssrt, alpha, abbrv
 \bibliographystyle{plain}
 
 \include{udl-style}
-\include{prelude}                % Title page, abstract, table of contents, etc
-\include{problem-description}                  % Chapter 1
+\include{prelude}
+\include{problem-description}
 \include{ha-schema}
 \include{operating-system-installation}
 \include{network-setup}

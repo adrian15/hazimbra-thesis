@@ -94,7 +94,7 @@ resource zimbradata {
 }
 \end{verbatim}
 
-Drbd configuration settings among others establish a \textit{10 megabits synchronisation} rate using one of the DRBD available protocols (\textit{C}). It also defines that on node named \textit{primary} we define a new DRBD \textit{device} named \textit{drbd0} which it's going to track \textit{/dev/sda3} partition thanks to it's meta-disk partition found in \texit{/dev/sda2}. The same setting is also specified for node named secondary. The only difference is ip \textit{address} where each one of the nodes have DRBD server listening to.
+Drbd configuration settings among others establish a \textit{10 megabits synchronisation} rate using one of the DRBD available protocols (\textit{C}). It also defines that on node named \textit{primary} we define a new DRBD \textit{device} named \textit{drbd0} which is going to track \textit{/dev/sda3} partition thanks to its meta-disk partition found in \textit{/dev/sda2}. The same setting is also specified for node named secondary. The only difference is ip \textit{address} where each one of the nodes have DRBD server listening to.
 
 If we want to modify our drbd.conf to increase synchronisation rate, synchronised devices or any other settings we can check documentation at \cite{LinbitDRBDdrbdconf}.
 

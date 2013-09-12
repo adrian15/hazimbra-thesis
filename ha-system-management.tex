@@ -3,9 +3,7 @@
 
 \chapter{High Availability System Management}
 \label{chap:ha-system-management}
-This chapter describes some common management tasks that can be used in the described High Availability System.
-
-TODO: The described. Find a better rewording.
+This chapter describes some common management tasks that can be used in High Availability systems like ours.
 
 \section {Introduction}
 Most of these examples have been extracted from Clusters From Scratch (\cite{ClustersFromScratch}) document . At Zimbra Forums Zimbra on Pacemaker + DRBD howto thread (\cite{ZForumsTaer}) we can find a Zimbra High Availability Howto (\cite{TaerHowtoHAZimbra8}) where we can find more every-day uses of Pacemaker examples.
@@ -77,9 +75,6 @@ service pacemaker start
 
 As per our our cluster system stickiness Zimbra service will stay in secondary server.
 
-
-TODO: Cluster system is a synonym for High Availability cluster. Add it Prelude or similar chapter where definitions are done.
-
 \section {Resources check}
 In order to check the overall Cluster status we just run the cluster management monitor command:
 \begin{verbatim}
@@ -109,9 +104,6 @@ Online: [ secondary primary ]
      ZimbraFS   (ocf::heartbeat:Filesystem):    Started primary
      ZimbraServer       (ocf::btactic:zimbra):  Started primary
 \end{verbatim}
-
-
-TODO: Add an crm\_mon output as a listing and make a reference to it
 
 \section {Move cluster resources temporarily}
 In the case that we want to move \textit{temporarily} resources to primary server we should run:
@@ -186,6 +178,4 @@ In order to stop the same resource we will issue:
 \begin{verbatim}
 crm resource stop ZimbraFS
 \end{verbatim}
-
-TODO: Put references between all of these sections to make explicit that there are linked one to another.
 

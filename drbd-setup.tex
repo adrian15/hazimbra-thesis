@@ -144,7 +144,7 @@ drbdadm -- connect all
 
 If we happen to find a \textit{net-config disconnect first} error we can safely ignore it.
 
-In order to check DRBD first synchronisation status we need to check /proc/drbd file with:
+We are goint to check DRBD first synchronisation status.
 \begin{verbatim}
 cat /proc/drbd
 \end{verbatim}
@@ -168,7 +168,10 @@ Final end output will similar to:
 \begin{verbatim}
 version: 8.3.11 (api:88/proto:86-96)
 srcversion: 93CE421BB73A731BDC72D8E 
- 0: cs:Connected ro:Primary/Secondary ds:UpToDate/UpToDate C r-----
-    ns:5691029 nr:0 dw:0 dr:6002290 al:0 bm:367 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:0
+ 0: cs:Connected ro:Primary/Secondary
+          ds:UpToDate/UpToDate C r-----
+    ns:5691029 nr:0 dw:0 dr:6002290
+  al:0 bm:367 lo:0 pe:0 ua:0 ap:0
+  ep:1 wo:f oos:0
 \end{verbatim}
 where we can see that both primary and secondary are updated (\textit{UpToDate}).

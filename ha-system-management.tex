@@ -6,7 +6,9 @@
 This chapter describes some common management tasks that can be used in High Availability systems like ours.
 
 \section {Introduction}
-Most of these examples have been extracted from Clusters From Scratch (\cite{ClustersFromScratch}) document . At Zimbra Forums Zimbra on Pacemaker + DRBD howto thread (\cite{ZForumsTaer}) we can find a Zimbra High Availability Howto (\cite{TaerHowtoHAZimbra8}) where we can find more every-day uses of Pacemaker examples.
+Most of these examples have been adapted from Clusters From Scratch document (\cite{ClustersFromScratch}).
+
+At Zimbra Forums Zimbra on Pacemaker + DRBD howto thread (\cite{ZForumsTaer}) we can find a Zimbra High Availability Howto (\cite{TaerHowtoHAZimbra8}) where we can find more every-day uses of Pacemaker examples.
 
 The reason why we need these examples is that instead of managing a single server installation Zimbra server system now we need to manage a high availability system initially setup by Pacemaker. Some of the most useful management tasks will be described.
 
@@ -18,8 +20,11 @@ This is an example of \textit{cat /proc/drbd} output:
 \begin{verbatim}
 version: 8.3.11 (api:88/proto:86-96)
 srcversion: 93CE421BB73A731BDC72D8E 
- 0: cs:WFConnection ro:Primary/Unknown ds:UpToDate/DUnknown C r-----
-    ns:0 nr:0 dw:0 dr:1977 al:0 bm:0 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:153220
+ 0: cs:WFConnection ro:Primary/Unknown
+    ds:UpToDate/DUnknown C r-----
+    ns:0 nr:0 dw:0 dr:1977 al:0
+      bm:0 lo:0 pe:0 ua:0 ap:0
+        ep:1 wo:f oos:153220
 \end{verbatim}
 where there is an split brain.
 
@@ -48,8 +53,11 @@ Once we check that \textit{cat /proc/drbd} has a non split brain state like:
 \begin{verbatim}
 version: 8.3.11 (api:88/proto:86-96)
 srcversion: 93CE421BB73A731BDC72D8E 
- 0: cs:Connected ro:Primary/Secondary ds:UpToDate/UpToDate C r-----
-    ns:5691029 nr:0 dw:0 dr:6002290 al:0 bm:367 lo:0 pe:0 ua:0 ap:0 ep:1 wo:f oos:0
+ 0: cs:Connected ro:Primary/Secondary
+   ds:UpToDate/UpToDate C r-----
+    ns:5691029 nr:0 dw:0 dr:6002290
+      al:0 bm:367 lo:0 pe:0 ua:0
+        ap:0 ep:1 wo:f oos:0
 \end{verbatim}
 we can restart the cluster with running (\textbf{in both nodes}):
 \begin{verbatim}
@@ -111,12 +119,12 @@ In the case that we want to move \textit{temporarily} resources to primary serve
 crm resource move ZimbraServer primary
 \end{verbatim}
 
-\section {Disable cluster resources temporarily movement}
+\section {Revert cluster resources movement}
 If we want to return Resource control to the cluster we can run:
 \begin{verbatim}
 crm resource unmove primary
 \end{verbatim}
-. In our setup, thanks to our defined stickiness the cluster won't perform any resource movement.
+In our setup, thanks to our defined stickiness the cluster won't perform any resource movement.
 
 \section {Migration testing}
 We can simulate the migration by declaring a node in standby. This way the standby node hardware can be fixed. We just have to run:
@@ -135,10 +143,12 @@ This is a crm\_mon output while node is migrating from primary node to secondary
 \begin{verbatim}
 ============
 Last updated: Sun Sep  8 23:33:41 2013
-Last change: Sun Sep  8 23:31:50 2013 via crm_attribute on primary
+Last change: Sun Sep  8 23:31:50 2013
+            via crm_attribute on primary
 Stack: openais
 Current DC: secondary - partition with quorum
-Version: 1.1.6-9971ebba4494012a93c03b40a2c58ec0eb60f50c
+Version: 1.1.6-9971ebba4494012
+              a93c03b40a2c58ec0eb60f50c
 2 Nodes configured, 2 expected votes
 5 Resources configured.
 ============
@@ -150,11 +160,13 @@ Online: [ secondary ]
      Masters: [ secondary ]
      Stopped: [ ZimbraData:1 ]
  Resource Group: MySystem
-     ClusterIP  (ocf::heartbeat:IPaddr2):       Started secondary
+     ClusterIP  (ocf::heartbeat:IPaddr2):
+                            Started secondary
  Resource Group: MyZimbra
-     ZimbraFS   (ocf::heartbeat:Filesystem):    Started secondary
-     ZimbraServer       (ocf::btactic:zimbra):  Stopped
-
+     ZimbraFS   (ocf::heartbeat:Filesystem):
+                            Started secondary
+     ZimbraServer       (ocf::btactic:zimbra):
+                            Stopped
 \end{verbatim}
 as we can see both ClusterIP and ZimbraFS have already started on secondary node and ZimbraServer is not started in secondary node yet.
 

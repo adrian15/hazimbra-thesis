@@ -8,9 +8,9 @@ This chapter explains the Operating System installation.
 \section {Introduction}
 Ubuntu is a complete desktop Linux operating system, freely available with both community and professional support. Ubuntu is suitable for both desktop and server use and includes more than one thousand pieces of software (\cite{UbuntuWhatIs}).
 
-We will use Ubuntu 12.04 in its 64bit mode because it is one of the official supported Operating System for Zimbra 8 versions. We denote an external DRBD metadata as DRBD-Meta-Disk. We can understand it is an special partition that helps DRBD system to track changes between synchronised partitions between both primary and secondary nodes. We can find a more accurate definition at Linbit site: \cite{LinbitDRBDInternals}.
+We will use Ubuntu 12.04 in its 64 bit mode because it is one of the official supported Operating System for Zimbra 8 versions. We denote an external DRBD metadata as DRBD-Meta-Disk. We can understand it is an special partition that helps DRBD system to track changes between synchronized partitions between both primary and secondary nodes. We can find a more accurate definition at Linbit site: \cite{LinbitDRBDInternals}.
 
-These instructions are valid for both primary and secondary nodes. The only difference is that each one of them will have a different hostname.
+These instructions are valid for both primary and secondary nodes. The only difference is that each one of them will have a different host name.
 
 An Ubuntu Gnu/Linux installation might be as complex as of having Logical Volumes Group (LVM) for the ease of hard disk space management. In this installation we will avoid that kind of partitions so that final Pacemaker setup (Section {\ref{sec:pacemaker-final-setup} Pacemaker final setup}) is easier.
 
@@ -28,11 +28,11 @@ We choose our location: \textit{United States}
 \subsection {Configure the keyboard}
 We choose \textit{no} for semi automated keyboard detection. That let us choose \textit{English (US} as country of origin for the keyboard. Finally we select default \textit{English (US)} keyboard.
 \subsection {Network}
-The network detection will be automatically sorted out if one our of interfaces is bridge in a network provided of a DHCP server. Once we boot into the operating system we will setup network manually. We are asked our hostname. We choose: \textit{primary} in case we are installing primary node and \textit{secondary} in case we are installing secondary node.
+The network detection will be automatically sorted out if one our of interfaces is bridge in a network provided of a DHCP server. Once we boot into the operating system we will setup network manually. We are asked our host name. We choose: \textit{primary} in case we are installing primary node and \textit{secondary} in case we are installing secondary node.
 \subsection {Ubuntu archive mirror country}
 We select default \textit{United States} and its associated mirror: \textit{us.archive.ubuntu.com}. When asked for HTTP proxy information we just press Return key to continue.
 \subsection {Checking Ubuntu mirror}
-Ubuntu installation will perform some background checkings and downloads without the user being noticed. Then the installation suddenly continues by retrieving and installing additional packages and components.
+Ubuntu installation will perform some background checking and downloads without the user being noticed. Then the installation suddenly continues by retrieving and installing additional packages and components.
 \subsection {Set up users and passwords}
 We first are asked to write \textit{Full name for the new user} and then \textit{Username for the account}. We will provide both of them. We are also prompted twice the user password. When asked we choose not to encrypt the home directory.
 \subsection {Configure the clock}
@@ -107,7 +107,7 @@ We select: \textit{No automatic updates} when asked how to manage upgrades just 
 When asked which software to install we will only check \textit{OpenSSH server} for installation in order to keep the installation as minimal and functional as possible.
 
 \subsection {Install the GRUB}
-When asked to Install teh GRUB boot loader to master boot record we select Yes.
+When asked to Install the GRUB boot loader to master boot record we select Yes.
 
 \subsection {Finish the installation}
 When we are asked if the system clock is set to UTC we select Yes. Once clock it's been set we need to do a change in Virtualbox. In the running Virtual machine we select \textit{Devices} menu, CD/DVD devices submenu and then we uncheck the minimal Ubuntu 12.04 64 bit iso.

@@ -79,6 +79,8 @@ chmod +x /usr/lib/ocf/resource.d/btactic/*
 \section {\label{sec:pacemaker-final-setup}Pacemaker final setup}
 As explained in \textit{section \ref{sec:about-pacemaker} About Pacemaker} Pacemaker is High Availability resource manager, here we will explain how our setup pretends to manage our two servers resources. These instructions should only be performed on \textbf{primary} node.
 
+We need to introduce resource stickiness concept. Resource stickiness controls how much a service prefers to stay running where it is. You may like to think of it as the \textit{cost} of any downtime. By default, Pacemaker assumes there is zero cost associated with moving resources and will do so to achieve \textit{optimal} resource placement (\cite{ClustersFromScratch}).
+
 These are the main settings we define in our configuration:
 \begin{itemize}
   \item Setup deletes prior configuration.
@@ -88,8 +90,6 @@ These are the main settings we define in our configuration:
   \item We disable stonith (definition on subsection {\ref{subsec:fencing} Fencing}) in order to simplify the setup.
   \item Primary server will be the preferred server where resources need to be run.
 \end{itemize}
-
-TODO: Check if we define stickiness somewhere else and make a reference here.
 
 We make sure that \textit{/tmp/zimbrapacemaker.config} file contents are:
 \begin{verbatim}

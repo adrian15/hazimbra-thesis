@@ -31,7 +31,7 @@ Once again bTactic team has developed an stonith script (or fence agent as known
 
 This script is available as a Red Hat's fence-agents package since fence-agents package 4.0.2 release version (\cite{LinuxClusterML201307}).
 
-\subsection {Mysql HA}
+\subsection {\label{subsection:mysql-ha}Mysql HA}
 One of the Zimbra components is a Mysql database. This Mysql database can be excluded from DRBD syncing and can be setup as an active / active cluster.
 
 This setup will offer a better handling of node failing because you would only loose last mysql queries. In the DRBD case you loose all the file changes that have not been stored into the files that compose actual Mysql database.
@@ -40,4 +40,21 @@ The only drawback for this improvement is that Zimbra OSE upgrades tend to be mu
 
 \subsection {Project Always ON}
 
-TODO: Project Always ON . http://blog.zimbra.com/blog/archives/2013/09/project-always-on.html
+Always ON is a project from Zimbra (\cite{ZimbraProjectAlwaysOn}) (September 2013) with a very simple goal: Email and collaboration should be \textit{always on} for end users. Its design goals are:
+\begin{itemize}
+  \item Inherently resilient to failure
+  \item Scaling should be elastic based on workload demands
+  \item The software can be enhanced without service disruption
+  \item Efficient usage of commodity hardware resources
+\end{itemize}
+. That design goals imply:
+\begin{itemize}
+  \item No single points of failure in the application components
+  \item Separating the application code from the data
+  \item Distributing state information across commodity storage
+  \item Automatic failover of application and data storage components
+  \item Automatic load balancing of client requests across the application and data layers
+\end{itemize}
+
+Project Always ON has just started and might be implemented as early as in Zimbra 10 version. It's an improvement over Mysql HA future work described on subsection {\ref{subsection:mysql-ha} Mysql HA} because not only enforces high availability on each of the Zimbra components but it's also focused on scaling resources. That means, that the more service is needed the more Zimbra (virtual) machines will be deployed to meet that service requirements.
+

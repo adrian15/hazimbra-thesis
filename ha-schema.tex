@@ -3,10 +3,15 @@
 
 \chapter{High availability schema}
 \label{chap:ha-schema}
-This chapter explains the High Availability system that will be tested through the Thesis. 
+This chapter explains the high availability system that will be tested through the Thesis. 
+
+\section {Purpose}
+The proposed high availability system is an Active/passive configuration. An Active/passive cluster provides a fully redundant instance of each node, which is only brought online when its associated primary node fails (\cite{HAClusterNodeConfigurations}).
+
+In our case the primary node will act as the active server and it will serve Zimbra services like web server, smtp, imap, etc. The secondary node will be idle just waiting for primary node to fail and bring Zimbra services online when that happens. Not to mention that secondary node also mirrors Zimbra data partition in the background thanks to DRBD.
 
 \section {Main schema}
-There are two servers which we will be named as the primary one and the secondary one. There are two servers which we will be named as the primary one and the secondary one. They are linked by means of two connections: The service and the communication link.
+There are two servers which we will be named as the primary one and the secondary one. They are linked by means of two connections: The service and the communication link.
 
 The service link is the main network interface which is connected via a normal switch. It will serve content to the final users. The communication link, which is used for the cluster management and synchronization is done via a crossover cable.
 

@@ -9,7 +9,7 @@ TODO: The described. Find a better rewording.
 
 \section {Conclusions}
 
-TODO: Objetive
+TODO: Objective
 TODO: Subjective
 
 In 
@@ -45,11 +45,11 @@ ClusterHostRoute and ClusterDefaultRoute are meant to help to setup OVH networki
 These scripts can be found inside BtacticOCF tar.gz file (\cite{BtacticOCF}) which can be downloaded from BtacticOCF  tar.gz file (\cite{BtacticOrg}).
 
 \subsection {Fencing}
-Fencing is the process of locking resources away from a node whose status is uncertain (\cite{LinuxHAFencing}). The default method of fencing in Pacemaker is using stonith. Stonith is a technique for NodeFencing, that means that the node (either primary or secondary server in our example) that it's supposed to have failed is \textit{shot in head} (\cite{LinuxHAStonith}). That makes sure that the node is actually dead.
+Fencing is the process of locking resources away from a node whose status is uncertain (\cite{LinuxHAFencing}). The default method of fencing in Pacemaker is using stonith. Stonith is a technique for node fencing, that means that the node (either primary or secondary server in our example) that it's supposed to have failed is \textit{shot in head} (\cite{LinuxHAStonith}). That makes sure that the node is actually dead.
 
 In our described example we have disabled stonith. We can improve it by enabling it and using one of the available methods.
 
-Once again bTactic team has developed an stonith script (or fence agent as known per Pacemaker) to make sure an OVH server doesn't use a shared resource. The failing node is rebooted into a Rescue mode which is quite similar to booting a computer with a live cd that doesn't make any change to local hard disks. Fence agent name is: fence\_ovh.
+Once again bTactic team has developed an stonith script (or fence agent as known per Pacemaker) to make sure an OVH server doesn't use a shared resource. The failing node is rebooted into a Rescue mode which is quite similar to booting a computer with a live CD that doesn't make any change to local hard disks. Fence agent name is: fence\_ovh.
 
 This script is available as a Red Hat's fence-agents package since fence-agents package 4.0.2 release version (\cite{LinuxClusterML201307}).
 
@@ -62,4 +62,4 @@ The only drawback for this improvement is that Zimbra OSE upgrades tend to be mu
 
 \subsection {Project Always ON}
 
-TODO: Proyect Always ON . http://blog.zimbra.com/blog/archives/2013/09/project-always-on.html
+TODO: Project Always ON . http://blog.zimbra.com/blog/archives/2013/09/project-always-on.html

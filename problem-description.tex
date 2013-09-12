@@ -35,7 +35,7 @@ For more information about Vmware Zimbra you can visit: \cite{ZimbraLearn}.
 Zimbra OSE High Availability is a project which attempts to attain high availability to each one of the Zimbra Collaboration Server components so that the risk of downtime due to hardware and/or telecommunication failures is minimized. High availability is usually implemented using High Availability software aimed at Gnu/Linux originally which is adapted to the Zimbra OSE setup.
 
 
-\section{History}
+\section{\label{sec:history}History}
 
 Prior documentation about Zimbra High Availability was written with Zimbra 6 version in mind which is devoted to work (among others) in Ubuntu 8.04 64 bit. Those instructions were based on Gnu/Linux High Availability software (heartbeat) which is no longer used for High Availability purposes nowadays.
 
@@ -48,9 +48,7 @@ The main thesis of this topic is: \\
 \textit{Design and test the setup of a Zimbra 8 High Availability System in Ubuntu 12.04 and write a detailed report of this setup procedure.}
 
 \section {Chosen technologies and solution}
-We have decided to use the following proved open source high availability technologies: Corosync, Distributed Replicated Block Device (DRBD), OCF , and Pacemaker.
-
-TODO: Justificarlo con lo de la historia. Haciendo referencia a la secci\'on de Historia. Well known, most used.
+We have decided to use the following proved open source high availability technologies: Corosync, Distributed Replicated Block Device (DRBD), OCF , and Pacemaker. The reason for using them is because they are the best well know and most used open source high availability technologies. They have supersesed old technologies like heartbeat which we mentioned in \textbf{section {\ref{sec:history} History}}.
 
 Corosync is a software meant to synchronize configuration files. Synchronize configuration files in a cluster is essential because all the cluster members have to share the same information and knowledge of the other cluster members. DRBD allows us to share a common storage between hosts as if a network RAID-1 hard disk it was. Finally, in order to setup and manage the whole cluster we will use Pacemaker cluster which uses OCF scripts as Cluster control scripts.
 
@@ -60,15 +58,15 @@ A set of virtual machines will be setup to check that even with Zimbra 8 and Ubu
 
 Chapter 2 explains the high availability system that will be tested through the thesis.
 
-TODO: Chapters 3 to 12 explain the detailed setup procedure of each element that constitutes the final system: \textit{\ref{chap:ha-schema} - High availability schema},
+Chapters 3 to 12 explain the detailed setup procedure of each element that constitutes the final system: \textit{\ref{chap:ha-schema} - High availability schema},
 \textit{\ref{chap:operating-system-installation} - Operating System installation},
 \textit{\ref{chap:network-setup} - Network setup},
 \textit{\ref{chap:zimbra-installation} - Zimbra installation},
 \textit{\ref{chap:drbd-setup} - DRBD Setup},
 \textit{\ref{chap:zimbra-drbd-startup-script-disabling} - Zimbra and DRBD Startup Script Disabling},
 \textit{\ref{chap:corosync-setup} - Corosync Setup} and
-\textit{\ref{chap:pacemaker-setup} - Pacemaker Setup}
-the instructions on how to install and setup a Zimbra OSE High Availability system  with two servers are detailed.
+\textit{\ref{chap:pacemaker-setup} - Pacemaker Setup}.
+Final system is a Zimbra OSE High Availability system with two servers.
 
 We learn how to manage our new High Availability system thanks to the \textit{\ref{chap:ha-system-management} - High Availability System Management} chapter.
 

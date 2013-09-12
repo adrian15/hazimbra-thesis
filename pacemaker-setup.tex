@@ -88,14 +88,11 @@ These are the main settings we define in our configuration:
   \item DRBD, Filesystem mount and Zimbra Server are setup to work in the same server as they work as in a team.
   \item System stickiness is changed so that Zimbra Server resource is not moved from where it's running to avoid Zimbra unnecessary downtimes.
   \item System are forced to be started in the right order. The right order is: DRBD, Filesystem mount, and Zimbra Server.
-  \item We disable stonith in order to simplify the setup.
+  \item We disable stonith (definition on subsection {\ref{subsec:fencing} Fencing}) in order to simplify the setup.
   \item Primary server will be the preferred server where resources need to be run.
 \end{itemize}
 
 TODO: Check if we define stickiness somewhere else and make a reference here.
-
-TODO: Add an explanation on stonith on a new Improvements chapter and make here a reference to it.
-
 
 We make sure that \textit{/tmp/zimbrapacemaker.config} file contents are:
 \begin{verbatim}
@@ -162,11 +159,5 @@ In order to apply the configuration we will run:
 \begin{verbatim}
 crm < /tmp/zimbrapacemaker.config
 \end{verbatim}
-.
-
-
 
 Pacemaker configuration is not trivial. The main document from which the configuration file was adapted and written was Clusters from Scratch (\cite{ClustersFromScratch}).
-
-TODO: Check if we need an order for normal ip ifconfig or whatever it's called.
-

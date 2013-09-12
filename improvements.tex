@@ -42,7 +42,7 @@ ClusterHostRoute and ClusterDefaultRoute are meant to help to setup OVH networki
 
 These scripts can be found inside BtacticOCF tar.gz file (\cite{BtacticOCF}) which can be downloaded from BtacticOCF  tar.gz file (\cite{BtacticOrg}).
 
-\subsection {Fencing}
+\subsection {\label{subsec:fencing}Fencing}
 Fencing is the process of locking resources away from a node whose status is uncertain (\cite{LinuxHAFencing}). The default method of fencing in Pacemaker is using stonith. Stonith is a technique for node fencing, that means that the node (either primary or secondary server in our example) that it's supposed to have failed is \textit{shot in head} (\cite{LinuxHAStonith}). That makes sure that the node is actually dead.
 
 In our described example we have disabled stonith. We can improve it by enabling it and using one of the available methods.

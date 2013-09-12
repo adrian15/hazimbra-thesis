@@ -54,6 +54,11 @@ Corosync is a software meant to synchronize configuration files. Synchronize con
 
 A set of virtual machines will be setup to check that even with Zimbra 8 and Ubuntu 12.04 all the steps in the original instructions can be reproduced. These steps are: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
 
+\section {Notation remarks}
+Zimbra will be run in two \textit{servers} in our solution. These servers will be named as \textit{virtual servers} when we refer to the from the Virtualbox or Virtualisation point of view as in section \textbf {\ref{sec:virtualbox-implementation} Virtualbox implementation}. Not to mention that these same servers can be run in physical servers directly.
+
+When the high availability system will be described these same servers will be named as \textit{nodes} as this is the way most high availability software refer to their own cluster machines.
+
 \section {Structure of the document}
 
 Chapter 2 explains the high availability system that will be tested through the thesis.

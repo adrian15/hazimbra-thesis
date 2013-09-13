@@ -124,7 +124,7 @@ If we want to return Resource control to the cluster we can run:
 \begin{verbatim}
 crm resource unmove primary
 \end{verbatim}
-In our setup, thanks to our defined stickiness the cluster won't perform any resource movement.
+In our setup, thanks to our defined stickiness the cluster will not perform any resource movement.
 
 \section {Migration testing}
 We can simulate the migration by declaring a node in standby. This way the standby node hardware can be fixed. We just have to run:
@@ -177,7 +177,7 @@ crm node online
 \end{verbatim}
 .
 
-Once again in our setup, thanks to our defined stickiness the cluster won't perform any resource movement.
+Once again in our setup, thanks to our defined stickiness the cluster will not perform any resource movement.
 
 \section {Starting and stopping resources}
 Sometimes, mainly for debugging purposes, is needed to start or stop cluster resources manually.

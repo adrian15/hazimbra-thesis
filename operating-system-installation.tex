@@ -39,7 +39,7 @@ We first are asked to write \textit{Full name for the new user} and then \textit
 Given our detected physical location we just press Return key to validate it.
 \subsection {Partition disks}
 \subsubsection {Introduction}
-Assuming a 1.8 Terabyte hard disk in order to setup DRBD-Meta-Disk there's enough with 59 megabytes. We will be on the safe side and setup it with a 150 megabytes size. In order to safe calculate other DRBD meta disk partitions we can check \cite{LinbitDRBDInternals}.
+Assuming a 1.8 Terabyte hard disk in order to setup DRBD-Meta-Disk there is enough with 59 megabytes. We will be on the safe side and setup it with a 150 megabytes size. In order to safe calculate other DRBD meta disk partitions we can check \cite{LinbitDRBDInternals}.
 
 We will not be using a SWAP partition because Zimbra works better without it according to Zimbra Performance Tunning Guidelines (\cite{ZimbraPerformanceTuning}). If a SWAP partition would be needed to be used we encourage to add it as a fixed size secondary hard disk.
 
@@ -108,7 +108,7 @@ When asked which software to install we will only check \textit{OpenSSH server} 
 When asked to Install the GRUB boot loader to master boot record we select Yes.
 
 \subsection {Finish the installation}
-When we are asked if the system clock is set to UTC we select Yes. Once clock it's been set we need to do a change in Virtualbox. In the running Virtual machine we select \textit{Devices} menu, CD/DVD devices submenu and then we uncheck the minimal Ubuntu 12.04 64 bit iso.
+When we are asked if the system clock is set to UTC we select Yes. Once clock it is been set we need to do a change in Virtualbox. In the running Virtual machine we select \textit{Devices} menu, CD/DVD devices submenu and then we uncheck the minimal Ubuntu 12.04 64 bit iso.
 
 On request we can force unmount in Virtualbox.
 

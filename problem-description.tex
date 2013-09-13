@@ -49,7 +49,7 @@ The main topic of this thesis is: \\
 \textit{Design and test the setup of a Zimbra 8 High Availability System in Ubuntu 12.04 and write a detailed report of this setup procedure.}
 
 \section {Chosen technologies and solution}
-We have decided to use the following proved open source HA technologies: Corosync, Distributed Replicated Block Device (DRBD), OCF , and Pacemaker.
+We have decided to use the following proved open source HA technologies:\\ Corosync, Distributed Replicated Block Device (DRBD), OCF, and Pacemaker.
 
 Corosync is a software meant to synchronize configuration files. Synchronize configuration files in a cluster is essential because all the cluster members have to share the same information and knowledge of the other cluster members. DRBD allows us to share a common storage between hosts as if a network RAID-1 hard disk it was. Finally, in order to setup and manage the whole cluster we will use Pacemaker cluster which uses OCF scripts as Cluster control scripts.
 

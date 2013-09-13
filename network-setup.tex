@@ -26,7 +26,7 @@ Service link network setup consists of a Class C configuration where the network
 
 This interface will not be configured in \textit{/etc/network/interfaces} but by pacemaker itself thanks to its cluster definition.
 
-That ip will be the one that email client will connect to our service. Our cluster will make sure that it's only configured in only one server, the active one.
+That ip will be the one that email client will connect to our service. Our cluster will make sure that it is only configured in only one server, the active one.
 
 \subsection {Primary server}
 
@@ -72,7 +72,7 @@ secondary.zimbraha.lan
 In order to have Internet connectivity an additional link set as a NAT interface in Virtualbox will be added.
 
 \section {Firewall}
-Our default Ubuntu minimal installation doesn't have 
+Our default Ubuntu minimal installation does not have 
 \subsection {Zimbra ports}
 These are the Zimbra ports that would need to be open in a production environment (\cite{ZimbraWikiPorts}):
 \begin{itemize}

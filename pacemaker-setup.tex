@@ -85,7 +85,7 @@ These are the main settings we define in our configuration:
 \begin{itemize}
   \item Setup deletes prior configuration.
   \item DRBD, Filesystem mount and Zimbra Server are setup to work in the same server as they work as in a team.
-  \item System stickiness is changed so that Zimbra Server resource is not moved from where it's running to avoid Zimbra unnecessary downtimes.
+  \item System stickiness is changed so that Zimbra Server resource is not moved from where it is running to avoid Zimbra unnecessary downtimes.
   \item System are forced to be started in the right order. The right order is: DRBD, Filesystem mount, and Zimbra Server.
   \item We disable stonith (definition on subsection {\ref{subsec:fencing} Fencing}) in order to simplify the setup.
   \item Primary server will be the preferred server where resources need to be run.

@@ -23,7 +23,7 @@ ClusterHostRoute and ClusterDefaultRoute are meant to help to setup OVH networki
 These scripts can be found inside BtacticOCF tar.gz file (\cite{BtacticOCF}) which can be downloaded from BtacticOCF  tar.gz file (\cite{BtacticOrg}).
 
 \subsection {\label{subsec:fencing}Fencing}
-Fencing is the process of locking resources away from a node whose status is uncertain (\cite{LinuxHAFencing}). The default method of fencing in Pacemaker is using stonith. Stonith is a technique for node fencing, that means that the node (either primary or secondary server in our example) that it's supposed to have failed is \textit{shot in head} (\cite{LinuxHAStonith}). That makes sure that the node is actually dead.
+Fencing is the process of locking resources away from a node whose status is uncertain (\cite{LinuxHAFencing}). The default method of fencing in Pacemaker is using stonith. Stonith is a technique for node fencing, that means that the node (either primary or secondary server in our example) that it is supposed to have failed is \textit{shot in head} (\cite{LinuxHAStonith}). That makes sure that the node is actually dead.
 
 In our described example we have disabled stonith. We can improve it by enabling it and using one of the available methods.
 
@@ -56,5 +56,5 @@ Always ON is a project from Zimbra (\cite{ZimbraProjectAlwaysOn}) (September 201
   \item Automatic load balancing of client requests across the application and data layers
 \end{itemize}
 
-Project Always ON has just started and might be implemented as early as in Zimbra 10 version. It's an improvement over Mysql HA future work described on subsection {\ref{subsection:mysql-ha} Mysql HA} because not only enforces HA on each of the Zimbra components but it's also focused on scaling resources. That means, that the more service is needed the more Zimbra (virtual) machines will be deployed to meet that service requirements.
+Project Always ON has just started and might be implemented as early as in Zimbra 10 version. It is an improvement over Mysql HA future work described on subsection {\ref{subsection:mysql-ha} Mysql HA} because not only enforces HA on each of the Zimbra components but it is also focused on scaling resources. That means, that the more service is needed the more Zimbra (virtual) machines will be deployed to meet that service requirements.
 

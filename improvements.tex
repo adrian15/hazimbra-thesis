@@ -58,3 +58,5 @@ Always ON is a project from Zimbra (\cite{ZimbraProjectAlwaysOn}) (September 201
 
 Project Always ON has just started and might be implemented as early as in Zimbra 10 version. It is an improvement over Mysql HA future work described on subsection {\ref{subsection:mysql-ha} Mysql HA} because not only enforces HA on each of the Zimbra components but it is also focused on scaling resources. That means, that the more service is needed the more Zimbra (virtual) machines will be deployed to meet that service requirements.
 
+\subsection {Data loss}
+Additional tests can be performed to measure how much data is lost is when one of the nodes is offline while having an active role. We can find some of these tests at \cite{TaerHowtoHAZimbra8}.

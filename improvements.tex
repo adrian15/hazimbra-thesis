@@ -9,7 +9,7 @@ This chapter draws some conclusions and describes some of the improvements that 
 
 We have shown, thanks to a reproducible example, that Zimbra OSE could be enhanced to be high available. This system has been based on state of the art open source high availability software such as Pacemaker and Corosync.
 
-The master thesis writer has learnt how to develop OCF Resource Agents which can be useful for other high availability systems. How to mirror a partition between two servers thanks to DRBD was also covered. More over, Zimbra, one of the easiest email server solutions in its open source edition, can now be used as a high availability system with standard high availability software.
+The master thesis writer has learnt how to develop OCF Resource Agents which can be useful for other HA systems. How to mirror a partition between two servers thanks to DRBD was also covered. More over, Zimbra, one of the easiest email server solutions in its open source edition, can now be used as a HA system with standard HA software.
 
 \section {Future work}
 
@@ -36,7 +36,7 @@ One of the Zimbra components is a Mysql database. This Mysql database can be exc
 
 This setup will offer a better handling of node failing because you would only loose last mysql queries. In the DRBD case you loose all the file changes that have not been stored into the files that compose actual Mysql database.
 
-The only drawback for this improvement is that Zimbra OSE upgrades tend to be much more difficult when we want to preserve high availability.
+The only drawback for this improvement is that Zimbra OSE upgrades tend to be much more difficult when we want to preserve HA.
 
 \subsection {Project Always ON}
 
@@ -56,5 +56,5 @@ Always ON is a project from Zimbra (\cite{ZimbraProjectAlwaysOn}) (September 201
   \item Automatic load balancing of client requests across the application and data layers
 \end{itemize}
 
-Project Always ON has just started and might be implemented as early as in Zimbra 10 version. It's an improvement over Mysql HA future work described on subsection {\ref{subsection:mysql-ha} Mysql HA} because not only enforces high availability on each of the Zimbra components but it's also focused on scaling resources. That means, that the more service is needed the more Zimbra (virtual) machines will be deployed to meet that service requirements.
+Project Always ON has just started and might be implemented as early as in Zimbra 10 version. It's an improvement over Mysql HA future work described on subsection {\ref{subsection:mysql-ha} Mysql HA} because not only enforces HA on each of the Zimbra components but it's also focused on scaling resources. That means, that the more service is needed the more Zimbra (virtual) machines will be deployed to meet that service requirements.
 

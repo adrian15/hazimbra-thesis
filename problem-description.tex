@@ -21,6 +21,7 @@ High availability systems typically operate 24x7 and usually require built-in re
 
 Availability can be measured relative to "100\% operational" or "never failing." A widely-held but difficult-to-achieve standard of availability for a system or product is known as "five 9s" (99.999 percent) availability. (\cite{BCMHA})
 
+From now on high availability will be refered as HA.
 
 \section {Vmware Zimbra OSE}
 VMware Zimbra is a complete email, address book, calendar and tasks solution that can be accessed from the Zimbra Web Client, Zimbra Desktop offline client, Outlook and a variety of other standards-based email clients and mobile devices. It can be deployed as a traditional binary install on Linux, or as a software virtual appliance, commonly referred to as Zimbra appliance.
@@ -32,7 +33,7 @@ Vmware Zimbra OSE will be referred most of the times as Zimbra.
 For more information about Vmware Zimbra you can visit: \cite{ZimbraLearn}.
 
 \section {Vmware Zimbra OSE High Availability}
-Zimbra OSE High Availability is a project which attempts to attain high availability to each one of the Zimbra Collaboration Server components so that the risk of downtime due to hardware and/or telecommunication failures is minimized. High availability is usually implemented using High Availability software aimed at Gnu/Linux originally which is adapted to the Zimbra OSE setup.
+Zimbra OSE High Availability is a project which attempts to attain HA to each one of the Zimbra Collaboration Server components so that the risk of downtime due to hardware and/or telecommunication failures is minimized. High availability is usually implemented using High Availability software aimed at Gnu/Linux originally which is adapted to the Zimbra OSE setup.
 
 
 \section{\label{sec:history}History}
@@ -48,20 +49,20 @@ The main topic of this thesis is: \\
 \textit{Design and test the setup of a Zimbra 8 High Availability System in Ubuntu 12.04 and write a detailed report of this setup procedure.}
 
 \section {Chosen technologies and solution}
-We have decided to use the following proved open source high availability technologies: Corosync, Distributed Replicated Block Device (DRBD), OCF , and Pacemaker.
+We have decided to use the following proved open source HA technologies: Corosync, Distributed Replicated Block Device (DRBD), OCF , and Pacemaker.
 
 Corosync is a software meant to synchronize configuration files. Synchronize configuration files in a cluster is essential because all the cluster members have to share the same information and knowledge of the other cluster members. DRBD allows us to share a common storage between hosts as if a network RAID-1 hard disk it was. Finally, in order to setup and manage the whole cluster we will use Pacemaker cluster which uses OCF scripts as Cluster control scripts.
 
-The reason for using these technologies is because they are the best well known and most used open source high availability technologies. They have supersesed old technologies like heartbeat which we mentioned in \textbf{section {\ref{sec:history} History}}.
+The reason for using these technologies is because they are the best well known and most used open source HA technologies. They have supersesed old technologies like heartbeat which we mentioned in \textbf{section {\ref{sec:history} History}}.
 
-A set of virtual machines will be used to setup Zimbra 8 and Ubuntu 12.04 high availability system. The neccessary steps to carry out this setup are: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
+A set of virtual machines will be used to setup Zimbra 8 and Ubuntu 12.04 HA system. The neccessary steps to carry out this setup are: Setup network in both hosts, setup DRBD, initial Pacemaker setup, corosync installation, pacemaker installation, corosync setup, startup script disabling, DRBD script boot disabling, Pacemaker final setup, Pacemaker case of use tests.
 
 This report describes in detail the setup procedure of each of these steps.
 
 \section {Notation remarks}
 Zimbra will be run in two \textit{servers} in our solution. These servers will be refered to as \textit{virtual servers} when we take the point of view of Virtualbox or virtualization point of view as in section \textbf {\ref{sec:virtualbox-implementation} Virtualbox implementation}.
 
-When the high availability system will be described these same servers will be refered to as \textit{nodes} as this is the way most high availability software refer to their own cluster machines.
+When the HA system will be described these same servers will be refered to as \textit{nodes} as this is the way most HA software refer to their own cluster machines.
 
 \section {Structure of the document}
 

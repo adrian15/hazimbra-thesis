@@ -6,7 +6,7 @@
 This chapter explains the high availability system that will be tested through the Thesis. 
 
 \section {Purpose}
-The proposed high availability system is an Active/passive configuration. An Active/passive cluster provides a fully redundant instance of each node, which is only brought online when its associated primary node fails (\cite{HAClusterNodeConfigurations}).
+The proposed HA system is an Active/passive configuration. An Active/passive cluster provides a fully redundant instance of each node, which is only brought online when its associated primary node fails (\cite{HAClusterNodeConfigurations}).
 
 In our case, the primary node will act as the active server and it will provide Zimbra services such as web server, smtp, imap, etc. The secondary node will be idle just waiting for the primary node to fail and bring Zimbra services online when that event happens. In addition the secondary node also mirrors Zimbra data partition in the background thanks to DRBD.
 
@@ -61,7 +61,7 @@ Zimbra needs: 2048 MB as a minimum.
 \subsubsection {Hard drive}
 We select \textit{Create a virtual hard drive now}, \textit{Virtualbox Disk Image} as the hard drive file type, Dynamically allocated (so that the hard drive file only uses space as it fills up).
 
-We leave the default File location and select hard disk size as 110 GB which is quite bigger than the strictly needed for our high availability system.
+We leave the default File location and select hard disk size as 110 GB which is quite bigger than the strictly needed for our HA system.
 
 \subsection {\label{subsec:service-link-primary}Service link network on Primary Virtual Machine}
 We select \textit{PrimaryZimbraHA} virtual machine and click on \textit{Machine} menu and then in \textit{Settings} option. We will make sure we are in \textit{Network} section.
@@ -113,4 +113,4 @@ In order to make installation easier we will enable \textit{Adapter 3} in both v
 Similarly to subsection \textbf{\ref{subsec:service-link-primary} Service link network on Primary Virtual Machine} we make sure that \textit{Adapter 3} is enabled and that it's attached to NAT.
 
 \subsection {Email client Virtual Machine}
-A Virtual Machine whose only purpose is to test high availability from a service link point of view might be added if needed. We're not to cover the installation and its setup here. We will just mention its network setup is similar to PrimaryZimbraHA and SecondaryZimbraHA but removing the second interface which serves for communication link and that, of course, doesn't make sense in an Email client VM.
+A Virtual Machine whose only purpose is to test HA from a service link point of view might be added if needed. We're not to cover the installation and its setup here. We will just mention its network setup is similar to PrimaryZimbraHA and SecondaryZimbraHA but removing the second interface which serves for communication link and that, of course, doesn't make sense in an Email client VM.

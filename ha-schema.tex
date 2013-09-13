@@ -8,7 +8,7 @@ This chapter explains the high availability system that will be tested through t
 \section {Purpose}
 The proposed high availability system is an Active/passive configuration. An Active/passive cluster provides a fully redundant instance of each node, which is only brought online when its associated primary node fails (\cite{HAClusterNodeConfigurations}).
 
-In our case the primary node will act as the active server and it will serve Zimbra services like web server, smtp, imap, etc. The secondary node will be idle just waiting for primary node to fail and bring Zimbra services online when that happens. Not to mention that secondary node also mirrors Zimbra data partition in the background thanks to DRBD.
+In our case, the primary node will act as the active server and it will provide Zimbra services such as web server, smtp, imap, etc. The secondary node will be idle just waiting for the primary node to fail and bring Zimbra services online when that event happens. In addition the secondary node also mirrors Zimbra data partition in the background thanks to DRBD.
 
 \section {Main schema}
 There are two servers which we will be named as the primary one and the secondary one. They are linked by means of two connections: The service and the communication link.

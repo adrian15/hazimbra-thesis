@@ -7,15 +7,15 @@ This chapter draws some conclusions and describes some of the improvements that 
 
 \section {Conclusions}
 
-We have demonstrated thanks to a reproducible example that Zimbra OSE could be enhaced to have high availability by the means of a system based on state of the art open source high availability software such as Pacemaker and Corosync.
+We have shown, thanks to a reproducible example, that Zimbra OSE could be enhanced to be high available. This system has been based on state of the art open source high availability software such as Pacemaker and Corosync.
 
-The master thesis writer has learnt how to develop OCF Resource Agents which can be useful for other high availability systems. How to mirror a partition between two servers thanks to DRBD was also covered. More than that, Zimbra, one of the easiest email server solutions in its open source edition can now be used as a high availability system with standard high availability software.
+The master thesis writer has learnt how to develop OCF Resource Agents which can be useful for other high availability systems. How to mirror a partition between two servers thanks to DRBD was also covered. More over, Zimbra, one of the easiest email server solutions in its open source edition, can now be used as a high availability system with standard high availability software.
 
 \section {Future work}
 
 \subsection {OVH Datacentre network handling}
 There have been some efforts from the bTactic team to handle OVH Datacentre networking thanks to three OCF scripts named: 
-ClusterOVHFailover, ClusterHostRoute and ClusterDefaultRoute. These scripts make sense in setup that doesn't use Virtual Rack + RIPE but just normal servers connected via Internet only.
+ClusterOVHFailover, ClusterHostRoute and ClusterDefaultRoute. These scripts make sense in setup that does not use Virtual Rack + RIPE but just normal servers connected via Internet only.
 
 ClusterOVHFailover makes sure an OVH ip-fail-over is failed over from one machine to the another one. This way Zimbra Server is being served by the correct host.
 ClusterHostRoute and ClusterDefaultRoute are meant to help to setup OVH networking for ip-fail-over which is not covered by standard network setup found in  default Pacemaker package.
@@ -27,7 +27,7 @@ Fencing is the process of locking resources away from a node whose status is unc
 
 In our described example we have disabled stonith. We can improve it by enabling it and using one of the available methods.
 
-Once again bTactic team has developed an stonith script (or fence agent as known per Pacemaker) to make sure an OVH server doesn't use a shared resource. The failing node is rebooted into a Rescue mode which is quite similar to booting a computer with a live CD that doesn't make any change to local hard disks. Fence agent name is: fence\_ovh.
+Once again bTactic team has developed an stonith script (or fence agent as known per Pacemaker) to make sure an OVH server does not use a shared resource. The failing node is rebooted into a Rescue mode which is quite similar to booting a computer with a live CD that does not make any change to local hard disks. Fence agent name is: fence\_ovh.
 
 This script is available as a Red Hat's fence-agents package since fence-agents package 4.0.2 release version (\cite{LinuxClusterML201307}).
 

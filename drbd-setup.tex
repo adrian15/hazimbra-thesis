@@ -7,7 +7,7 @@ This chapter explains the DRBD Setup.
 
 \section {Introduction}
 DRBD is a system that let us mirror a block device via an assigned device. DRBD can be understood as network based raid-1 and it's used in high availability (HA) clusters (\cite{LinbitDRBDWhatIs}).
-We're using DRBD to mirror the block device where Zimbra files will be stored in.
+We are using DRBD to mirror the block device where Zimbra files will be stored in.
 
 \section {Requirements}
 We will install DRBD packages for the Ubuntu 12.04 system thanks to the following command:
@@ -47,7 +47,7 @@ and commenting its line:
 \section {DRBD Resource config}
 \textbf{To be performed in both nodes}.
 
-We will backup main drbd configuration file:
+We will backup main DRBD configuration file:
 \begin{verbatim}
 cp /etc/drbd.conf /etc/drbd.conf.orig
 \end{verbatim}
@@ -94,7 +94,7 @@ resource zimbradata {
 }
 \end{verbatim}
 
-Drbd configuration settings among others establish a \textit{10 megabits synchronisation} rate using one of the DRBD available protocols (\textit{C}). It also defines that on node named \textit{primary} we define a new DRBD \textit{device} named \textit{drbd0} which is going to track \textit{/dev/sda3} partition thanks to its meta-disk partition found in \textit{/dev/sda2}. The same setting is also specified for node named secondary. The only difference is ip \textit{address} where each one of the nodes have DRBD server listening to.
+Among other issues DRBD configuration settings establish a \textit{10 megabits synchronisation} rate using one of the DRBD available protocols (\textit{C}). It also defines that on the node named {\tt primary} we define a new DRBD \textit{device} named \textit{drbd0} which is going to track \textit{/dev/sda3} partition thanks to its meta-disk partition found in \textit{/dev/sda2}. The same setting is also specified for the node named {\tt secondary}. The only difference is IP \textit{address} where each one of the nodes have DRBD server listening to.
 
 If we want to modify our drbd.conf to increase synchronisation rate, synchronised devices or any other settings we can check documentation at \cite{LinbitDRBDdrbdconf}.
 

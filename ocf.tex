@@ -6,19 +6,19 @@
 This chapter explains the development of a Zimbra OCF Resource Agent.
 
 \section {Introduction}
-A resource agent is a standardized interface for a cluster resource. In translates a standard set of operations into steps specific to the resource or application, and interprets their results as success or failure(\cite{ResourceAgentsWiki}). An OCF resource agent is based on the Open Clustering Framework Resource Agent API specifications(\cite{OCFResourceAgentsWiki}).
+A resource agent is a standardized interface for a cluster resource. It translates a standard set of operations into steps specific to the resource or application, and interprets their results as success or failure (\cite{ResourceAgentsWiki}). An OCF resource agent is based on the Open Clustering Framework Resource Agent API specifications(\cite{OCFResourceAgentsWiki}).
 
-In order to use latest Pacemaker version to manage Zimbra high availability an OCF Resource Agent script was needed. So a Zimbra OCF Resource Agent was developed.
+In order to use the latest Pacemaker version to manage Zimbra high availability an OCF Resource Agent script was needed. So a Zimbra OCF Resource Agent was developed.
 
 \section {Development log}
 \begin{itemize}
-  \item {In order to develop resource agent is advised to have cluster management stopped with:
+  \item {In order to develop a resource agent it is advised to have cluster management stopped with:
 \begin{verbatim}
 service corosync stop
 \end{verbatim}
-and handle manually the resources on which current script is dependent on.
+and to handle manually the resources which current script is dependant on.
   }
-  \item {It's advised to use \textit{ocf-tester} script which will be find in \textit{cluster-agents} package in order to debug if the OCF script actions complies with the required ones in \cite{OCFResourceAgentsWiki}.
+  \item {It is advised to use \textit{ocf-tester} script which will be found in \textit{cluster-agents} package in order to debug if the OCF script actions comply with the required ones in \cite{OCFResourceAgentsWiki}.
   }
   \item {The minimal required actions were implemented because Zimbra server does not promote or demote itself.
   }
@@ -28,11 +28,9 @@ and handle manually the resources on which current script is dependent on.
   }
 \end{itemize}
 
-\section {Zimbra OCF Source code}
+\section {Zimbra OCF source code}
 
-You can find Zimbra OCF source code here:
-
-\lstinputlisting[language=Bash]{ocf/zimbra}
+You can find Zimbra OCF source code at appendix {\ref{cha:zimbra-ocf-source-code} - Zimbra OCF Source Code}.
 
 
 

@@ -146,8 +146,7 @@ monitor interval=2min timeout="40s" \
 op start interval="0" timeout="360s" \
 op stop interval="0" timeout="360s"
 # Prefered location: primary node
-location prefer-primary-node \
-ZimbraServer 50: primary
+
 # Define DRBD ZimbraData
 primitive ZimbraData ocf:linbit:drbd params \
 drbd_resource=zimbradata op monitor \
@@ -169,17 +168,39 @@ op start interval="0" timeout="60s" \
 op stop interval="0" timeout="60s"
 group MyZimbra ZimbraFS ZimbraServer
 
-
 # Everything in the same host
-colocation everything-together \
-inf: MyZimbra \
-ZimbraDataClone:Master ClusterIP
+colocation ClusterIP-with-ZimbraDataClone-Master \
+inf: ZimbraDataClone:Master ClusterIP
+
+colocation ZimbraDataClone-Master-with-ZimbraFS \
+inf: ZimbraFS ZimbraDataClone:Master
+
+colocation ZimbraFS-with-ZimbraServer \
+inf: ZimbraServer ZimbraFS
+
 
 # Everything ordered
-order everything-ordered \
+order ZimbraDataClone-promote-on-ClusterIP \
 inf: \
-ClusterIP \
-ZimbraDataClone:promote MyZimbra
+ClusterIP:start \
+ZimbraDataClone:promote
+
+order ZimbraFS-on-ZimbraDataClone-promote \
+inf: \
+ZimbraDataClone:promote ZimbraFS:start
+
+order ZimbraServer-on-ZimbraFS \
+inf: \
+ZimbraFS:start ZimbraServer:start
+
+# Prefer primary location
+location ClusterIP-prefer-primary-node \
+ClusterIP 50: primary
+location ZimbraFS-prefer-primary-node \
+ZimbraFS 50: primary
+location ZimbraServer-prefer-primary-node \
+ZimbraServer 50: primary
+
 commit
 \end{verbatim}
 

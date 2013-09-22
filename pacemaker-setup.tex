@@ -46,6 +46,37 @@ ldconfig deferred processing now taking place
 \end{verbatim}
 % Initial Pacemaker Setup
 
+\section {Pacemaker reboot and check}
+In \textbf{both nodes} in order to check Pacemaker startup we need to reboot the machine thanks to:
+\begin{verbatim}
+sync
+shutdown -r now
+\end{verbatim}
+.
+
+Once the machine has rebooted we can cluster status thanks to:
+\begin{verbatim}
+crm_mon
+\end{verbatim}
+
+In order to check that everything is ok we need to make sure that the output shown in both nodes is the same one.
+If both nodes are shown inside Online line that means that both nodes are detected to be online from the Pacemaker point of view.
+
+Here there is a crm\_mon output where both nodes are online:
+\begin{verbatim}
+============
+Last updated: Sun Sep  8 13:06:11 2013
+Last change: Sun Sep  8 13:04:19 2013 via crmd on primary
+Stack: openais
+Current DC: primary - partition with quorum
+Version: 1.1.6-9971ebba4494012a93c03b40a2c58ec0eb60f50c
+2 Nodes configured, 2 expected votes
+0 Resources configured.
+============
+
+Online: [ secondary primary ]
+\end{verbatim}
+
 \section {bTactic Zimbra OCF installation}
 \textbf{In both nodes} we need to obtain the Zimbra OCF script. Zimbra OCF script is found inside BtacticOCF tar.gz file (\cite{BtacticOCF}) which can be downloaded from BtacticOCF  tar.gz file (\cite{BtacticOrg}).
 

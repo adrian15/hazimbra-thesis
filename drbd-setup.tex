@@ -23,6 +23,30 @@ For the purpose of both DRBD and Corosync communication we need to define our ho
 10.0.66.202 secondary.zimbraha.lan secondary
 \end{verbatim}
 
+by the means of removing:
+\begin{verbatim}
+127.0.1.1       primary
+\end{verbatim}
+or
+\begin{verbatim}
+127.0.1.1       secondary
+\end{verbatim}
+if needed.
+
+We also need to define the hostnames correctly in both nodes.
+
+\textbf{On primary node} we will make sure that \textit{/etc/hostname} contains:
+
+\begin{verbatim}
+primary
+\end{verbatim}
+. In order to apply changes we will run:
+\begin{verbatim}
+service hostname restart
+\end{verbatim}
+
+Same operation but using \textit{secondary} will need to be performed \textbf{on secondary node}.
+
 \section {Disable Zimbra}
 As Zimbra is using the DRBD backing device which is \textit{/dev/sda3} we need to unmount it and that means that we need to stop Zimbra services before doing so.
 

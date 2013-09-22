@@ -19,17 +19,16 @@ We will make sure in \textit{/etc/hosts} file that we have:
 192.168.77.203 public.zimbraha.lan public
 \end{verbatim}
 \subsection {/etc/hostname}
-\textbf{On primary node} we will make sure that \textit{/etc/hostname} contains:
+\textbf{On both nodes}
+We will make sure that \textit{/etc/hostname} contains:
 
 \begin{verbatim}
-primary
+public
 \end{verbatim}
 . In order to apply changes we will run:
 \begin{verbatim}
 service hostname restart
 \end{verbatim}
-
-Same operation but using \textit{secondary} will need to be performed \textbf{on secondary node}.
 
 \section {Package requirements}
 \textbf{On both nodes} we will make sure we meet the Zimbra system package requirements.
@@ -124,13 +123,11 @@ Zimbra packages installation is being performed.
 \subsection {Change hostname}
 When asked:
 \begin{verbatim}
-DNS ERROR resolving primary.zimbraha.lan
+DNS ERROR resolving public.zimbraha.lan
 It is suggested that the hostname be resolvable via DNS
 Change hostname [Yes]
 \end{verbatim}
-we will change it (\textit{Yes}) so that it says: \textit{public.zimbraha.lan}.
-
-As DNS is not setup the same question will be asked. We will answer that \textit{No} we do not want to re-enter hostname.
+We will answer that \textit{No} we do not want to re-enter hostname.
 
 In a production environment we will need to make sure an A DNS field so that public.zimbraha.lan resolves to its public ip or internal ip.
 
